@@ -24,8 +24,12 @@ var KiwiNet = (function() {
         var script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/KiwiNetLibrary.js";
         document.getElementsByTagName('head')[0].appendChild(script);
+        KiwiNet.fluxxRichTextEditors("{{ model.id }}");
     }
-    KiwiNet.fluxxRichTextEditors("{{ model.id }}");
+    else {
+        KiwiNet.fluxxRichTextEditors("{{ model.id }}");
+    }
+    
 </script>
     */
     methods.fluxxRichTextEditors = function(modelID) {
