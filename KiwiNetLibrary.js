@@ -22,7 +22,7 @@ var KiwiNet = (function() {
 <script>
     if (typeof KiwiNet == 'undefined') {
         var script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavascriptLibrary/KiwiNetLibrary.js";
+        script.src = "https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/KiwiNetLibrary.js";
         document.getElementsByTagName('head')[0].appendChild(script);
     }
     KiwiNet.fluxxRichTextEditors("{{ model.id }}");
