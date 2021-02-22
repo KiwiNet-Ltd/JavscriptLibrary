@@ -123,12 +123,12 @@ var KiwiNet = (function() {
         /*INSTALL CODE
 <script>
     if (typeof KiwiNet != 'undefined') {
-        KiwiNet.UserGuidingFluxx("{{ user.user_profile_id }}");
+        KiwiNet.UserGuidingFluxx("{{ user.user_profile_id }}", "{{ user.last_login_at }}");
     }
 </script>
     */
     methods.UserGuidingFluxx = function(userprofileID, lastloggedin = true) {
-        if (lastloggedin == null) {
+        if (lastloggedin == "") {
             window.UGshowintro = true;
         }
         else {
@@ -140,3 +140,10 @@ var KiwiNet = (function() {
     
     return methods;
 })();
+
+/*
+
+var link = $('<li class="icon"><a class="link" target="_blank" href="https://kiwinet.powerappsportals.com/reporting/#portfolio" title="Reporting Dashboard"><span class="label">Reporting Dashboard</span></a></li>');
+$('ol#iconlist ul#information').append(link);
+
+*/
