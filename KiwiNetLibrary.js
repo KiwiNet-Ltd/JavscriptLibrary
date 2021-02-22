@@ -118,6 +118,32 @@ var KiwiNet = (function() {
             }
         }
     }
+
+    //Userguiding - Fluxx Container
+        /*INSTALL CODE
+<script>
+    if (typeof KiwiNet != 'undefined') {
+        KiwiNet.UserGuidingFluxx("{{ user.user_profile_id }}", "{{ user.last_login_at }}");
+    }
+</script>
+    */
+    methods.UserGuidingFluxx = function(userprofileID, lastloggedin = true) {
+        if (lastloggedin == "") {
+            window.UGshowintro = true;
+        }
+        else {
+            window.UGshowintro = false;
+        }
+        window.granteeType = userprofileID;
+        (function(g,u,i,d,e,s){g[e]=g[e]||[];var f=u.getElementsByTagName(i)[0];var k=u.createElement(i);k.async=true;k.src='https://static.userguiding.com/media/user-guiding-'+s+'-embedded.js';f.parentNode.insertBefore(k,f);if(g[d])return;var ug=g[d]={q:[]};ug.c=function(n){return function(){ug.q.push([n,arguments])};};var m=['previewGuide','finishPreview','track','identify','triggerNps','hideChecklist','launchChecklist'];for(var j=0;j<m.length;j+=1){ug[m[j]]=ug.c(m[j]);}})(window,document,'script','userGuiding','userGuidingLayer','881222442ID'); 
+    }
     
     return methods;
 })();
+
+/*
+
+var link = $('<li class="icon"><a class="link" target="_blank" href="https://kiwinet.powerappsportals.com/reporting/#portfolio" title="Reporting Dashboard"><span class="label">Reporting Dashboard</span></a></li>');
+$('ol#iconlist ul#information').append(link);
+
+*/
