@@ -28,7 +28,7 @@ var KiwiNet = (function() {
     };
 
 
-    method.install_talent_form = function(container) {
+    methods.install_talent_form = function(container) {
         jQuery.ajax({
             url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@dev/talent-form.html',
             xhr: function() {
