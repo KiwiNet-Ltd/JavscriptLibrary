@@ -1,0 +1,493 @@
+<div id="K6er51g_talent_plugin" class="kiwinet_K6er51g">
+    <section class="K6er51g_construct">
+        <link href="https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@dev/kiwinet_bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            function checkboxline(type,number,value) {
+                value = value.trim();
+                type = type.toLowerCase();
+                var html = $('\
+                    <div class="row">\
+                        <input type="checkbox" value="'+value+'" id="K6er51g_talent_form_'+type+'_'+number+'">\
+                        <label for="K6er51g_talent_form_'+type+'_'+number+'">\
+                            '+value+'\
+                        </label>\
+                    </div>');   
+                
+                return html;
+            }
+            
+            function validateEmail(email) {
+                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
+            
+            $(document).on('change', 'fieldset.K6er51g_talent_form_checkboxlist input[type="checkbox"]', function() {
+                var data = "";
+                var triggerInput = $(this);
+                var container = $(this).closest('fieldset.K6er51g_talent_form_checkboxlist');
+                
+                $(this).closest('div.K6er51g_talent_form_checkboxlist').find('.K6er51g_talent_form_checkbox_any').prop('checked', false);
+                
+                container.find(':checked').each(function(){
+                    if (data == "") data = this.value;
+                    else data = data + ", " + this.value; 
+                }); 
+                            
+                container.siblings('#K6er51g_talent_form_checkboxlist_data').val(data);
+            });
+            
+            $(document).on('change', 'input.K6er51g_talent_form_checkbox_any', function() {
+                var triggerInput = $(this);
+                var container = $(triggerInput).closest('div.K6er51g_talent_form_checkboxlist');
+                
+                console.log(container);
+                
+                container.find('fieldset.K6er51g_talent_form_checkboxlist input:checked').each(function(){
+                    $(this).prop('checked', false);
+                }); 
+                
+                container.find('#K6er51g_talent_form_checkboxlist_data').val('Any - No Preference');
+            });
+                                 
+            $(function(){
+                $('#K6er51g_overlay').css('display', 'block');
+                var htmloptions = [];
+                $.ajax({
+                    url: 'https://kiwinet-api.azurewebsites.net/get/oip-html-options/5Wm8HH9Kq9ySaudAM79jvZu8g7FFuaTCEnGzbwaFJ6ZBPpDhzb',
+                    success:(function(data){
+                        htmloptions = data.value;
+                        for (var i = 0; i < htmloptions.length; i++) {
+                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\CheckboxList\\')) {
+                                var object = htmloptions[i];
+                                var type = object.cr236_setting.split('\\')[object.cr236_setting.split('\\').length-1];
+                                var values = object.cr236_value.split('\n');
+                                var container = $('fieldset#K6er51g_talent_form_'+type.toLowerCase());
+                                
+                                var cutoff = Math.floor(values.length/2);
+                                
+                                for (var j = 0; j < values.length; j++) {
+                                    if (j <= cutoff) {
+                                        container.find('#K6er51g_talent_form_'+type.toLowerCase()+'_col1').append(new checkboxline(type, j, values[j]));
+                                    }
+                                    else {
+                                        container.find('#K6er51g_talent_form_'+type.toLowerCase()+'_col2').append(new checkboxline(type, j, values[j]));
+                                    }
+                                }
+                            }
+                        
+                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\Required')) {
+                                var object = htmloptions[i];
+                                var values = object.cr236_value.split('\n');
+                                
+                                var container = $('form#K6er51g_talent_form');
+                                
+                                for (var j = 0; j < values.length; j++) {                      
+                                    var inputs = container.find('input[name="'+values[j]+'"]:visible');
+                                    for (var k = 0; k < inputs.length; k++) {
+                                        $(inputs[k]).attr('required', true);
+                                        var label = $(inputs[k]).closest('.row').find('label');
+                                        var text = label.html();
+                                        label.html(text + '<b> *</b>');
+                                    }
+                                }
+                                
+                            }
+                            
+                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\SuccessMessage')) {
+                                var object = htmloptions[i];
+                                var value = object.cr236_value.replace('/\n|\r\n?/', "<br>");
+                                
+                                var container = $('#K6er51g_talent_thankyou_container');
+                                
+                                container.find('h4').html(value);
+                            }
+                        
+                        }
+                        $('#K6er51g_overlay').css('display', 'none');
+                    }),
+                    method: 'post',
+                    dataType: 'json'
+                });
+                
+            });
+            
+            $(document).on('change', '#K6er51g_talent_form_talent', function() {
+                if ($(this).find(':selected').val() != "Intern") {
+                    $('#K6er51g_talent_form_dateend, #K6er51g_talent_form_course').closest('.row').css('display', 'none');
+                }
+                else {
+                    $('#K6er51g_talent_form_dateend, #K6er51g_talent_form_course').closest('.row').css('display', '');
+                }
+            })
+            
+            $(document).on('submit', 'form#K6er51g_talent_form', function(event) {
+                event.preventDefault();
+                
+                if(!validateEmail($('form#K6er51g_talent_form input[name="email"]').val())) {
+                    alert("Email is not in correct format");
+                    return false;
+                }
+                
+                var formData = new FormData(this);
+                $('#K6er51g_overlay').css('display', 'block');
+                $.ajax({
+                    url: 'https://kiwinet-api.azurewebsites.net/put/talentform/MjUvmNdXbVGVmgfNHH6nudYU8cB99FgfGkxwsdEe',
+                    method: 'post',
+                    data: formData,
+                    success: function (data) {
+                        $('#K6er51g_overlay').css('display', 'none');
+                        $('#K6er51g_talent_form_container').css('display', 'none');                        
+                        $('#K6er51g_talent_thankyou_container').css('display', 'block');
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        $('#K6er51g_overlay').css('display', 'none');
+                        console.log(data.responseText);
+                        alert(data.responseText);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+
+                return false;
+            });
+            
+        </script>
+        <style>
+            #K6er51g_talent_body {
+                position: relative;
+            }
+            
+            #K6er51g_overlay {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 999;
+                background: rgba(255,255,255,0.8) url("https://kiwinet.blob.core.windows.net/publicfluxx/loader.gif") center no-repeat;
+            }
+            
+            fieldset.K6er51g_talent_form_checkboxlist div.row label, .row > .K6er51g_talent_form_checkbox_any + label {
+                max-width: 90%;
+            }
+            
+            .kiwinet_K6er51g {
+                font-family: inherit;
+                color: inherit;
+            }
+            
+            .kiwinet_K6er51g form .row {
+                margin: 1vh;
+            }
+
+            .kiwinet_K6er51g form {
+                padding: 0 1vh;
+                font-family: inherit;
+                color: inherit;
+            }
+
+            .kiwinet_K6er51g form textarea {
+                height: 20vh;
+            }
+
+            .kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
+                content: '';
+                background-color: lightgray;
+                background: -webkit-gradient(linear, 0 0, 100% 0, from(lightgray), to(white), color-stop(200%, lightgray));
+                margin-top: 5px;
+                height: 1px;
+                width: 100%;
+                display: block;
+            }
+            
+            .K6er51g_div_underline {
+                margin: 1vh 0 2vh 0;
+            }
+            
+            .K6er51g_div_underline::after {
+                content: '';
+                background-color: gray;
+                background: radial-gradient(circle, gray 0%, white 100%);
+                margin-top: 5px;
+                height: 1px;
+                width: 100%;
+                display: block;
+            }
+            
+            .K6er51g_div_underline {
+                margin-bottom: 1vh;
+            }
+
+            .kiwinet_K6er51g form input, 
+            .kiwinet_K6er51g form textarea,
+            .kiwinet_K6er51g form select {
+                width: 100%;
+                border: none;
+            }
+
+            .kiwinet_K6er51g form input[type="checkbox"] {
+                width: unset;
+            }
+
+            .kiwinet_K6er51g form input:focus,
+            .kiwinet_K6er51g form textarea:focus,
+            .kiwinet_K6er51g form select:focus {
+                outline: none;
+            }
+
+        </style>
+    </section>
+
+    
+    
+    <form method="post" enctype="multipart/form-data" id="K6er51g_talent_form">
+    <div id="K6er51g_talent_body" class="container_fluid">
+        <div id="K6er51g_overlay"></div>
+        <section class="K6er51g_div_underline">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Talent Application</h1>
+                <p>All the information you provide via the fields below, will be accessible to <a href="https://kiwinet.org.nz/About/Members" target="_blank">KiwiNet member organisations</a>.</p>
+            </div>
+        </div>
+        </section>
+        
+        <div id="K6er51g_talent_form_container">
+        <section class="K6er51g_div_underline">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="K6er51g_talent_form_type">Talent Type</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <select name="type" id="K6er51g_talent_form_talent">
+                            <option value="Intern">Internship</option>
+                            <option value="Talent">Job</option>
+                            <option value="Secondee">Secondment</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+            <section class="K6er51g_div_underline">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="K6er51g_talent_form_name">Full Name</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="name" type="text" id="K6er51g_talent_form_name" placeholder="Full Name...">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="K6er51g_talent_form_email">Email</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="email" type="text" id="K6er51g_talent_form_email" placeholder="Email...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="K6er51g_talent_form_mobile">Mobile</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="mobile" type="text" id="K6er51g_talent_form_mobile" placeholder="Mobile...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </section>
+        
+            <section class="K6er51g_div_underline">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Dates you are available for an internship</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="K6er51g_talent_form_datestart">Start Date</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="datestart" type="date" id="K6er51g_talent_form_datestart">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="K6er51g_talent_form_dateend">End Date</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="dateend" type="date" id="K6er51g_talent_form_dateend">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-9">
+                            <label for="K6er51g_talent_form_relocate">Happy to Relocate?</label>
+                        </div>
+                        <div class="col-sm-9 col-md-3">
+                            <input name="relocate" type="checkbox" id="K6er51g_talent_form_relocate">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-9">
+                            <label for="K6er51g_talent_form_course">Is this related to an existing course requirement?</label>
+                        </div>
+                        <div class="col-sm-9 col-md-3">
+                            <input name="course" type="checkbox" id="K6er51g_talent_form_course">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-9">
+                            <label for="K6er51g_talent_form_mentor">Would you like a mentor?</label>
+                        </div>
+                        <div class="col-sm-9 col-md-3">
+                            <input name="mentor" type="checkbox" id="K6er51g_talent_form_mentor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </section>
+                
+            <div class="row K6er51g_div_underline">
+                <div class="col-md-12">
+                    <label>Areas of Interest</label>
+                </div>
+                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
+                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="interest" value="Any - No Preference"/>
+
+                    <div class="row">
+                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_interest_any">
+                        <label for="K6er51g_talent_form_interest_any">
+                            Any - No Preference
+                        </label>
+                    </div>
+
+
+                    <fieldset name="organisation" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_interest">
+                        <div class="col-md-6" id="K6er51g_talent_form_interest_col1">                    
+                        </div>
+                        <div class="col-md-6" id="K6er51g_talent_form_interest_col2">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row K6er51g_div_underline">
+                <div class="col-md-12">
+                    <label>Preferred Organisation</label>
+                </div>
+                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
+                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="organisation" value="Any - No Preference"/>
+
+                    <div class="row">
+                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_organisation_any">
+                        <label for="K6er51g_talent_form_organisation_any">
+                            Any - No Preference
+                        </label>
+                    </div>
+
+                    <fieldset name="organisation" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_organisation">
+                        <div class="col-md-6" id="K6er51g_talent_form_organisation_col1">                    
+                        </div>
+                        <div class="col-md-6" id="K6er51g_talent_form_organisation_col2">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row K6er51g_div_underline">
+                <div class="col-md-12">
+                    <label>Preferred Region</label>
+                </div>
+                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
+                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="region" value="Any - No Preference"/> 
+
+                    <div class="row">
+                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_region_any">
+                        <label for="K6er51g_talent_form_region_any">
+                            Any - No Preference
+                        </label>
+                    </div>
+
+                    <fieldset name="region" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_region">
+                        <div class="col-md-6" id="K6er51g_talent_form_region_col1">                    
+                        </div>
+                        <div class="col-md-6" id="K6er51g_talent_form_region_col2">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-sm-3 col-sm-12">
+                            <label for="K6er51g_talent_form_about">About You</label>
+                        </div>
+                        <div class="col-sm-9 col-sm-12">
+                            <textarea name="about" id="K6er51g_talent_form_about"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3 col-sm-12">
+                            <label for="K6er51g_talent_form_cv">Upload CV (pdf,doc,docx - max 5M)</label>
+                        </div>
+                        <div class="col-sm-9 col-sm-12">
+                            <input type="file" name="cv" id="K6er51g_talent_form_cv" accept=".pdf,.doc,.docx">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row justify-content-end">
+                        <div class="col-sm-6">
+                            <input type="submit" class="btn btn-success" accept=".pdf,.doc,.docx">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="K6er51g_talent_thankyou_container" style="display:none;">
+            <h4 style="
+                text-align: center;
+                margin: 6vh 11vw;
+           "><b>Thank you</b><br>
+    Your application has been submitted and will be reviewed by KiwiNet Manangement.</h4>
+        </div>
+        </div>
+    </form>
+</div>
