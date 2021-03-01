@@ -128,6 +128,10 @@
                     alert("Email is not in correct format");
                     return false;
                 }
+
+                if($('form#K6er51g_talent_form input[name="allowed"]').val() != "on") {
+                    alert('Sorry you cannot submit this application if you are not legally allowed to work in NZ');
+                }
                 
                 var formData = new FormData(this);
                 $('#K6er51g_overlay').css('display', 'block');
@@ -175,6 +179,14 @@
                 padding: 2vw;
             }
             
+            div#K6er51g_talent_form_container label {
+                font-weight: bold;
+            }
+
+            div#K6er51g_talent_body .col-md-12 h1 {
+                text-align: center;
+            }
+
             #K6er51g_overlay {
                 position: absolute;
                 width: 100%;
@@ -322,6 +334,16 @@
                         </div>
                         <div class="col-sm-9">
                             <input name="mobile" type="text" id="K6er51g_talent_form_mobile" placeholder="Mobile...">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-9">
+                            <label for="K6er51g_talent_form_allowed">Are you legally allowed to work in NZ?</label>
+                        </div>
+                        <div class="col-sm-9 col-md-3">
+                            <input name="allowed" type="checkbox" id="K6er51g_talent_form_allowed">
                         </div>
                     </div>
                 </div>
