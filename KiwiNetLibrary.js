@@ -34,7 +34,29 @@ var KiwiNet = (function() {
 </script>*/
     methods.install_talent_form = function(container) {
         jQuery.ajax({
-            url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@dev/talent-form.html',
+            url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/talent-form.html',
+            xhr: function() {
+                var xhr = jQuery.ajaxSettings.xhr();
+                var setRequestHeader = xhr.setRequestHeader;
+                xhr.setRequestHeader = function(name, value) {
+                    return;
+                }
+                return xhr;
+            },
+            success: function(data, textStatus, jqXHR) {
+                $(container).html($(data));
+            }
+        });
+    };
+
+    /*<script>
+    if (typeof KiwiNet != 'undefined') {
+        KiwiNet.install_auaha_form(document.getElementById('XX'));
+    }
+    </script>*/
+    methods.install_auaha_form = function(container) {
+        jQuery.ajax({
+            url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/site-request.html',
             xhr: function() {
                 var xhr = jQuery.ajaxSettings.xhr();
                 var setRequestHeader = xhr.setRequestHeader;
