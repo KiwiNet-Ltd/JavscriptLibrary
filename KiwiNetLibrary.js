@@ -27,7 +27,11 @@ var KiwiNet = (function() {
         }
     };
 
-
+/*<script>
+    if (typeof KiwiNet != 'undefined') {
+        KiwiNet.install_talent_form(document.getElementById('XX'));
+    }
+</script>*/
     methods.install_talent_form = function(container) {
         jQuery.ajax({
             url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@dev/talent-form.html',

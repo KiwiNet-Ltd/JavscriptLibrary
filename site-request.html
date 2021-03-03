@@ -1,0 +1,637 @@
+
+<div style="max-width: 60vw; margin: auto;r">
+
+<div id="K6er51g_siterequest_plugin" class="kiwinet_K6er51g">
+    <section class="K6er51g_construct">
+        <link href="https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/kiwinet_bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/a618dbeb50.js" crossorigin="anonymous"></script>
+        <script>           
+            function updateCategories() {
+                var data = "";
+                var input = $('input#K6er51g_siterequest_form_categories');
+                if ($('table#K6er51g_siterequest_form_categories_table>tbody>tr>td').length == 0) input.val(null);
+                $('table#K6er51g_siterequest_form_categories_table>tbody>tr>td').each(function() {
+                    if (data == "") data = this.textContent;
+                    else data = data + ", " + this.textContent; 
+                    input.val(data);
+                });
+            }
+
+            $(document).on('click', 'table#K6er51g_siterequest_form_categories_table i.fa-minus-circle', function() {
+                $(this).closest('tr').remove();
+                updateCategories();
+            });
+
+            $(document).on('keydown', 'table#K6er51g_siterequest_form_categories_table input', function(e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $('table#K6er51g_siterequest_form_categories_table i.fa-plus-circle').trigger('click');
+                    return false;
+                }
+            });
+
+            $(document).on('change', '#K6er51g_siterequest_form_content', function() {
+                var value = $(this).find(':selected').val();
+                if (value == "true") {
+                    $('#K6er51g_siterequest_form_timerequired').parent().css('display', 'none');
+                }
+                else {
+                    $('#K6er51g_siterequest_form_timerequired').parent().css('display', 'block');
+                }
+            });
+
+            $(document).on('click', 'table#K6er51g_siterequest_form_categories_table i.fa-plus-circle', function() {
+                var input = $(this).siblings('input')[0];
+
+                if (input.value == "") {
+                    var op = 1;
+                    var timer = setInterval(function () {
+                        if (op <= 0.1){
+                            input.style.border = 'none';
+                            clearInterval(timer);
+                        }
+                        else {
+                            input.style.borderRadius = '5px';
+                            input.style.border = '1px solid rgba(255,10,10,'+op+')';
+                            op -= op * 0.1;
+                        }
+                    }, 50);
+                }
+                else {
+                    $('table#K6er51g_siterequest_form_categories_table>tbody').append($('<tr><td><i class="fas fa-minus-circle"></i>' + input.value + '</td></tr>'));
+                    input.value = "";
+                    updateCategories();
+                }
+
+            });
+           
+            $(document).on('submit', 'form#K6er51g_siterequest_form', function(event) {
+                event.preventDefault();
+                                
+                var formData = new FormData(this);
+                $('#K6er51g_overlay').css('display', 'block');
+                $.ajax({
+                    url: 'https://kiwinet-api.azurewebsites.net/put/auaharequest/2U9zqxsedxQZEPK49dxs7mVsXwyBE6',
+                    method: 'post',
+                    data: formData,
+                    success: function (data) {
+                        $('#K6er51g_overlay').css('display', 'none');
+                        $('#K6er51g_siterequest_form_container').css('display', 'none');                        
+                        $('#K6er51g_siterequest_thankyou_container').css('display', 'block');
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        $('#K6er51g_overlay').css('display', 'none');
+                        console.log(data.responseText);
+                        alert(data.responseText);
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+
+                return false;
+            });
+            
+        </script>
+        <style>
+            div#K6er51g_siterequest_body .col-sm-12 label {
+                display: block;
+                margin-bottom: 1vh;
+            }
+
+            div#K6er51g_siterequest_body span.instructions {
+                display: block;
+                padding: 0 0 1vh 1vw;
+                font-style: italic;
+            }
+
+            div#K6er51g_siterequest_body input, div#K6er51g_siterequest_body select {
+                margin: 1vh 0 0 0;
+            }
+
+            .kiwinet_K6er51g {
+                background: white;
+                border: 1px solid gray;
+                box-shadow: 0.5vw 0.5vw 1vw 0 grey;
+            }
+
+            #K6er51g_siterequest_body {
+                position: relative;
+            }
+
+            .kiwinet_K6er51g * {
+                text-align: left;
+            }
+
+            .kiwinet_K6er51g form {
+                padding: 2vw;
+            }
+            
+            div#K6er51g_siterequest_form_container label {
+                font-weight: bold;
+            }
+
+            div#K6er51g_siterequest_body .col-md-12 h1 {
+                text-align: center;
+            }
+
+            #K6er51g_overlay {
+                display: none;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 999;
+                background: rgba(255,255,255,0.8) url("https://kiwinet.blob.core.windows.net/publicfluxx/loader.gif") center no-repeat;
+            }
+            
+            fieldset.K6er51g_siterequest_form_checkboxlist div.row label, .row > .K6er51g_siterequest_form_checkbox_any + label {
+                max-width: 90%;
+            }
+            
+            .kiwinet_K6er51g {
+                font-family: inherit;
+                color: inherit;
+            }
+            
+            .kiwinet_K6er51g form .row {
+                margin: 1vh;
+            }
+
+            .kiwinet_K6er51g form {
+                padding: 0 1vh;
+                font-family: inherit;
+                color: inherit;
+            }
+
+            .kiwinet_K6er51g form textarea {
+                height: 20vh;
+            }
+
+            .kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
+                content: '';
+                background-color: lightgray;
+                background: -webkit-gradient(linear, 0 0, 100% 0, from(lightgray), to(white), color-stop(200%, lightgray));
+                margin-top: 5px;
+                height: 1px;
+                width: 100%;
+                display: block;
+            }
+            
+            .K6er51g_div_underline {
+                margin: 1vh 0 2vh 0;
+            }
+            
+            .K6er51g_div_underline::after {
+                content: '';
+                background-color: gray;
+                background: radial-gradient(circle, gray 0%, white 100%);
+                margin-top: 5px;
+                height: 1px;
+                width: 100%;
+                display: block;
+            }
+            
+            .K6er51g_div_underline {
+                margin-bottom: 1vh;
+            }
+
+            .kiwinet_K6er51g form input, 
+            .kiwinet_K6er51g form textarea,
+            .kiwinet_K6er51g form select {
+                width: 100%;
+                border: none;
+            }
+
+            .kiwinet_K6er51g form input[type="checkbox"] {
+                width: unset;
+            }
+
+            .kiwinet_K6er51g form input:focus,
+            .kiwinet_K6er51g form textarea:focus,
+            .kiwinet_K6er51g form select:focus {
+                outline: none;
+            }
+
+            table#K6er51g_siterequest_form_categories_table td {
+                padding: 1vh 0 0 0;
+            }
+
+            table#K6er51g_siterequest_form_categories_table i.fa-minus-circle,
+            table#K6er51g_siterequest_form_categories_table i.fa-plus-circle {
+                position: absolute;
+                margin-left: -1.5vw;
+                cursor: pointer;
+            }
+
+        </style>
+    </section>
+
+    <form method="post" enctype="multipart/form-data" id="K6er51g_siterequest_form">
+        <div id="K6er51g_siterequest_body" class="container_fluid">
+            <div id="K6er51g_overlay"></div>
+            <section class="K6er51g_div_underline">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Auaha Site Request</h1>
+                    </div>
+                </div>
+            </section>
+            
+            <div id="K6er51g_siterequest_form_container">
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Site Information</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_name">Title</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input name="name" type="text" id="K6er51g_siterequest_form_name" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_CTA">One Liner or Call to Action</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input name="cta" type="text" id="K6er51g_siterequest_form_CTA" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_description">Brief Description</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="description" id="K6er51g_siterequest_form_description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_purpose">Site Purpose</label>
+                                    <span class="instructions">The Context, The Problem, The Target, etc</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="purpose" id="K6er51g_siterequest_form_purpose"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_categories">Categories</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input id="K6er51g_siterequest_form_categories" type="text" hidden name="categories"/>
+
+                                    <table id="K6er51g_siterequest_form_categories_table">
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr><td><i class="fas fa-plus-circle"></i><input type="text" id="K6er51g_siterequest_form_categories_new" placeholder="New Category...."></td></tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Site Content</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_pages">Number of Content Pages</label>
+                                    <span class="instructions">For free options (refer <a target="_blank" href="https://kiwinet.brightidea.com/ct/c_c.bix">initiative pricing</a> - 2 pages (max), Standard and Bespoke initiatives options are up to 20 pages </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="number" name="pages" id="K6er51g_siterequest_form_pages">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_content">Has this content already been developed?</label>
+                                    <span class="instructions">Do you have the content developed already, or do you need some time, if so, how long?</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="content" id="K6er51g_siterequest_form_content">
+                                        <option selected value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input placeholder="How long? (X Days, X months, etc)" type="text" name="time" id="K6er51g_siterequest_form_timerequired">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Branding</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_guidelines">What are your branding guidelines</label>
+                                    <span class="instructions">List type eg banner and hex code - one per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="guidelines" id="K6er51g_siterequest_form_guidelines"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_thumbnail">Thumbnail Image</label>
+                                    <span class="instructions">Please include URL link to image - Sizes: 300x300px and 1920x1920px - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="thumbnail" id="K6er51g_siterequest_form_thumbnail"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_banner">Banner Image</label>
+                                    <span class="instructions">Please include URL link to image: 1920x600px - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="banner" id="K6er51g_siterequest_form_banner"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_videos">Any videos that you want included on content pages or submission forms</label>
+                                    <span class="instructions">Please provide a URL, not the video file - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="videos" id="K6er51g_siterequest_form_videos"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Submission Form</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_questions">List questions and type</label>
+                                    <span class="instructions">Types can be found <a target="_blank" href="https://support.brightidea.com/hc/en-us/articles/205840497-Submission-Form-Builder#two">here</a>, one per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="questions" id="K6er51g_siterequest_form_questions"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_editing">Participant Editing</label>
+                                    <span class="instructions">There are three options in the system that control how the participants can edit their applications AFTER they are submitted.
+                                        <ol>
+                                        <li>A participant can edit their application at any time during the pipeline (We do not recommend this)</li>
+                                        <li>A participant can edit their application at any time before the first action is taken, for example when the judging starts</li>
+                                        <li>A participant can edit their application up to 30mins after the application has been submitted (Recommended)</li></ol>
+                                        </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="editing" id="K6er51g_siterequest_form_content">
+                                        <option value="anytime">Anytime</option>
+                                        <option value="before">Before 1st Action</option>
+                                        <option selected value="30min">30min After Submission</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_team">Team Submission</label>
+                                    <span class="instructions">Applications can allow multiple people to work on a single proposal in the system. Please note that before people can be included in the team they have to register as well.
+                                        An alternative to the built-in teams function is to put in a question that asks for the team members information in the proposal form, this is a less restrictive option.
+                                        </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="team" id="K6er51g_siterequest_form_team">
+                                        <option selected value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Scheduling and Pipeline</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_start">Start Date</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="date" name="start" id="K6er51g_siterequest_form_start">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_end">End Date</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="date" name="end" id="K6er51g_siterequest_form_end">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_pipeline">Pipeline</label>
+                                    <span class="instructions">Please list Stages, Steps and Review Type, definitions found <a target="_blank" href="https://support.brightidea.com/hc/en-us/articles/205844367-Stages-Step-Tool-Types-Action-Items">here</a></span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="pipeline" id="K6er51g_siterequest_form_pipeline"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_judges">Judges</label>
+                                    <span class="instructions">Please list any judges or evaluators and the steps they relate to – Max of 30</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="judges" id="K6er51g_siterequest_form_judges"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+            <section class="K6er51g_div_underline">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Other Information</h3>
+                    </div>
+                </div>
+                <div class="row">
+
+           
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_contact">Primary Contact for this initiative</label>
+                                <span class="instructions">Include name and contact information</span>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <textarea name="contact" id="K6er51g_siterequest_form_contact"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_terms">Terms and Conditions</label>
+                                <span class="instructions">Are there any T’s and C’s that participants need to agree to?</span>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="terms" id="K6er51g_siterequest_form_terms">
+                                    <option value="false">No</option>
+                                    <option selected value="true">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_public">Should this site be public or by registration only?</label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="public" id="K6er51g_siterequest_form_public">
+                                    <option selected value="false">Registration Only</option>
+                                    <option value="true">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_visible">Should submissions be visible to other participants?</label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="visible" id="K6er51g_siterequest_form_visible">
+                                    <option selected value="false">Hidden</option>
+                                    <option value="true">Visible</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_voting">If submissions are visible would you like voting enabled on this site? <a href="https://support.brightidea.com/hc/en-us/articles/205841467-Voting-on-Submissions" target="_blank">Voting?</a></label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="voting" id="K6er51g_siterequest_form_visible">
+                                    <option selected value="false">Voting Disabled</option>
+                                    <option value="true">Voting Enabled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+                
+            <section class="K6er51g_div_underline">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="submit" class="btn btn-success">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </section>
+
+            
+            </div>
+
+            <div id="K6er51g_siterequest_thankyou_container" style="display:none;">
+                <h4 style="
+                    text-align: center;
+                    margin: 6vh 11vw;
+            "><b>Thank you</b><br>
+        Your application has been submitted and will be reviewed by KiwiNet Manangement.</h4>
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>
