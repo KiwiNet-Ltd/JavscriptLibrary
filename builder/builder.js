@@ -388,7 +388,7 @@ Vvveb.Components = {
 
 			if (typeof property.group  === 'undefined') property.group = null;
 
-			property.input = property.inputtype.init(property.data);
+			//property.input = property.inputtype.init(property.data);
 			
 			if (property.init)
 			{
