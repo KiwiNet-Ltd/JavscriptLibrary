@@ -362,7 +362,7 @@ Vvveb.Components = {
 						element = component.onChange(element, property, value, input);
 					}
 					
-					if (!property.child && !property.parent) Vvveb.Builder.selectNode(element);
+					if (!property.child && !property.parent) element.trigger("click");// Vvveb.Builder.selectNode(element);
 					
 					return element;
 			});				
@@ -388,7 +388,8 @@ Vvveb.Components = {
 
 			if (typeof property.group  === 'undefined') property.group = null;
 
-			//property.input = property.inputtype.init(property.data);
+			
+			property.input = property.inputtype.init(property.data);
 			
 			if (property.init)
 			{
