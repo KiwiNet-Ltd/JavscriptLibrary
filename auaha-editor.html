@@ -3,37 +3,19 @@
     $('#customFooter').append($('<script src="https://cdn.tiny.cloud/1/2r95o2cgzpvzweghblom1djd4aoinula83gidgqlojsvcx45/tinymce/5/tinymce.min.js" referrerpolicy="origin"><\/script>'));
 
 	var configArray = [{
-		//theme : "advanced",
 		remove_script_host : false,
 		convert_urls : false,
 		mode : "none",
+        toolbar: [
+            'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
+            'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
+        ],
 		plugins : "lists,advlist,pagebreak,save,table,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,-n1ed",
 		apiKey: "VGE2DFLT",
 		external_plugins: {
 			'n1ed': 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/n1ed/plugin.js'
 		},
-		height: 600,
-		theme_advanced_layout_manager : "SimpleLayout",
-		theme_advanced_toolbar_location : "top",
-		theme_advanced_toolbar_align : "left",
-			setup : function(ed) {
-				ed.ui.registry.addButton('ajaxSave', {
-					title : 'Save',
-					'class' : 'ajaxSave',
-					onclick : function() {
-						if(tinyMCE.activeEditor.editorId == "mce_fullscreen")
-							var id = tinyMCE.activeEditor.settings.fullscreen_editor_id;
-						else
-							var id = tinyMCE.activeEditor.editorId;
-
-						var widget = getWidgetById(id.replace("_rich_text_widget", ""));
-						editWidgetRequest(widget, "RichEdit");
-					}
-				});
-			},
-		theme_advanced_buttons1 : "fullscreen,ajaxSave,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,fontselect,fontsizeselect",
-		theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,blockquote,|,link,unlink,cleanup,code,|,forecolor,backcolor,|,hr,emotions,media,image",
-		theme_advanced_buttons3 : "tablecontrols,|"
+		height: 600
 	}];
 
 	function switchWidgetEditabilityRich(id, edit_body) {
