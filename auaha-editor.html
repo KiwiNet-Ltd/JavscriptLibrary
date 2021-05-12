@@ -1,0 +1,64 @@
+<script>
+
+    $('#customFooter').append($('<script src="https://cdn.tiny.cloud/1/2r95o2cgzpvzweghblom1djd4aoinula83gidgqlojsvcx45/tinymce/5/tinymce.min.js" referrerpolicy="origin"><\/script>'));
+
+	var configArray = [{
+		remove_script_host : false,
+		convert_urls : false,
+		mode : "none",
+        toolbar: [
+            'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
+            'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
+        ],
+		plugins : "lists,advlist,pagebreak,save,table,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,-n1ed",
+		apiKey: "VGE2DFLT",
+		external_plugins: {
+			'n1ed': 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/n1ed/plugin.js'
+		},
+		height: 600
+	}];
+
+	function switchWidgetEditabilityRich(id, edit_body) {
+    var widget = getWidgetById(id);
+    if (widget) {
+        if (widget.editing) {
+            widget.editing = false;
+            var newTitle = document.getElementById(widget.id + "_title_edit").value;
+            var encodedText = $('<div/>').text(newTitle).html();
+            document.getElementById(widget.id + "_title_text").innerHTML = encodedText;
+            if (edit_body) {
+                tinyMCE.execCommand("mceRemoveEditor", true, widget.id + "_rich_text_widget");
+                editWidgetRequest(widget, "Rich")
+            } else {
+                editWidgetRequest(widget, "no_body");
+                showHide(widget.id + "_image_changer")
+            }
+            ;var widgetAsJQ = $(document.getElementById(widget.id + "_rich_text_widget"));
+            var widgetTables = widgetAsJQ.children("table[cellpadding]");
+            $.each(widgetTables, function(key, value) {
+                var valAsJQ = $(value);
+                var intendedPadding = valAsJQ.attr('cellpadding');
+                valAsJQ.find('td').css('padding', intendedPadding)
+            })
+        } else {
+            widget.editing = true;
+            var widgetAsJQ = $(document.getElementById(widget.id + "_rich_text_widget"));
+            var widgetTables = widgetAsJQ.children("table[cellpadding]");
+            $.each(widgetTables, function(key, value) {
+                var valAsJQ = $(value);
+                valAsJQ.find('td').css('padding', '')
+            });
+            var titleTextObj = document.getElementById(widget.id + "_title_text");
+            var oldTitleText = titleTextObj.innerHTML;
+            oldTitleText = oldTitleText.replace(/\"/, "\"");
+            oldTitleText = oldTitleText.replace(/\'/g, "&#39;");
+            titleTextObj.innerHTML = "<input onMouseDown='stopPropagation(event);' type='text' style='width:100%;' maxlength='90' id='" + widget.id + "_title_edit' value='" + oldTitleText + "'>";
+            if (edit_body) {
+                tinyMCE.settings = configArray[0];
+                tinyMCE.execCommand("mceAddEditor", true, widget.id + "_rich_text_widget")
+            } else
+                showHide(widget.id + "_image_changer")
+        }
+    }
+}
+</script>

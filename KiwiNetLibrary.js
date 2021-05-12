@@ -70,6 +70,29 @@ var KiwiNet = (function() {
             }
         });
     };
+
+
+    /*<script>
+    if (typeof KiwiNet != 'undefined') {
+        KiwiNet.install_auaha_editor(document.getElementById('XX'));
+    }
+    </script>*/
+    methods.install_auaha_editor = function(container) {
+        jQuery.ajax({
+            url: 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/auaha-editor.html',
+            xhr: function() {
+                var xhr = jQuery.ajaxSettings.xhr();
+                var setRequestHeader = xhr.setRequestHeader;
+                xhr.setRequestHeader = function(name, value) {
+                    return;
+                }
+                return xhr;
+            },
+            success: function(data, textStatus, jqXHR) {
+                $(container).html($(data));
+            }
+        });
+    };
         
     //Init Fluxx Rich Text Editors
     /*INSTALL CODE
