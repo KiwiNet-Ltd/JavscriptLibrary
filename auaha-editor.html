@@ -3,9 +3,11 @@
     $('#customFooter').append($('<script src="https://cdn.tiny.cloud/1/2r95o2cgzpvzweghblom1djd4aoinula83gidgqlojsvcx45/tinymce/5/tinymce.min.js" referrerpolicy="origin"><\/script>'));
 
     var url = "https://kiwinet-api.azurewebsites.net/flmngr/files";
+    var server = "https://kiwinet-api.azurewebsites.net/flmngr/flmngr.php";
     var id = window.campaign_id;
     if (typeof id !== undefined && window.enterprise_site !== true) {
         url = url + "/" + id;
+        server = server + "?id=" + id;
     }
 
 	var configArray = [{
@@ -23,7 +25,9 @@
 		},
 		height: 600,
         Flmngr: {
-            urlFiles: url
+            urlFiles: url,
+            defaultUploadDir: url,
+            urlFileManager: server
         }
 	}];
 
