@@ -1,148 +1,84 @@
-<div id="K6er51g_talent_plugin" class="kiwinet_K6er51g">
+
+<div style="max-width: 60vw; margin: auto;">
+
+<div id="K6er51g_siterequest_plugin" class="kiwinet_K6er51g">
     <section class="K6er51g_construct">
-        <link href="https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@dev/kiwinet_bootstrap.css" rel="stylesheet" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/kiwinet_bootstrap.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script>
-            function checkboxline(type,number,value) {
-                value = value.trim();
-                type = type.toLowerCase();
-                var html = $('\
-                    <div class="row">\
-                        <input type="checkbox" value="'+value+'" id="K6er51g_talent_form_'+type+'_'+number+'">\
-                        <label for="K6er51g_talent_form_'+type+'_'+number+'">\
-                            '+value+'\
-                        </label>\
-                    </div>');   
-                
-                return html;
-            }
-            
-            function validateEmail(email) {
-                const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            }
-            
-            $(document).on('change', 'fieldset.K6er51g_talent_form_checkboxlist input[type="checkbox"]', function() {
+        <script src="https://kit.fontawesome.com/a618dbeb50.js" crossorigin="anonymous"></script>
+        <script>           
+            function updateCategories() {
                 var data = "";
-                var triggerInput = $(this);
-                var container = $(this).closest('fieldset.K6er51g_talent_form_checkboxlist');
-                
-                $(this).closest('div.K6er51g_talent_form_checkboxlist').find('.K6er51g_talent_form_checkbox_any').prop('checked', false);
-                
-                container.find(':checked').each(function(){
-                    if (data == "") data = this.value;
-                    else data = data + ", " + this.value; 
-                }); 
-                            
-                container.siblings('#K6er51g_talent_form_checkboxlist_data').val(data);
-            });
-            
-            $(document).on('change', 'input.K6er51g_talent_form_checkbox_any', function() {
-                var triggerInput = $(this);
-                var container = $(triggerInput).closest('div.K6er51g_talent_form_checkboxlist');
-                
-                console.log(container);
-                
-                container.find('fieldset.K6er51g_talent_form_checkboxlist input:checked').each(function(){
-                    $(this).prop('checked', false);
-                }); 
-                
-                container.find('#K6er51g_talent_form_checkboxlist_data').val('Any - No Preference');
-            });
-                                 
-            $(function(){
-                $('#K6er51g_overlay').css('display', 'block');
-                var htmloptions = [];
-                $.ajax({
-                    url: 'https://kiwinet-api.azurewebsites.net/get/oip-html-options/5Wm8HH9Kq9ySaudAM79jvZu8g7FFuaTCEnGzbwaFJ6ZBPpDhzb',
-                    success:(function(data){
-                        htmloptions = data.value;
-                        for (var i = 0; i < htmloptions.length; i++) {
-                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\CheckboxList\\')) {
-                                var object = htmloptions[i];
-                                var type = object.cr236_setting.split('\\')[object.cr236_setting.split('\\').length-1];
-                                var values = object.cr236_value.split('\n');
-                                var container = $('fieldset#K6er51g_talent_form_'+type.toLowerCase());
-                                
-                                var cutoff = Math.floor(values.length/2);
-                                
-                                for (var j = 0; j < values.length; j++) {
-                                    if (j <= cutoff) {
-                                        container.find('#K6er51g_talent_form_'+type.toLowerCase()+'_col1').append(new checkboxline(type, j, values[j]));
-                                    }
-                                    else {
-                                        container.find('#K6er51g_talent_form_'+type.toLowerCase()+'_col2').append(new checkboxline(type, j, values[j]));
-                                    }
-                                }
-                            }
-                        
-                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\Required')) {
-                                var object = htmloptions[i];
-                                var values = object.cr236_value.split('\n');
-                                
-                                var container = $('form#K6er51g_talent_form');
-                                
-                                for (var j = 0; j < values.length; j++) {                      
-                                    var inputs = container.find('input[name="'+values[j]+'"]:visible');
-                                    for (var k = 0; k < inputs.length; k++) {
-                                        $(inputs[k]).attr('required', true);
-                                        var label = $(inputs[k]).closest('.row').find('label');
-                                        var text = label.html();
-                                        label.html(text + '<b> *</b>');
-                                    }
-                                }
-                                
-                            }
-                            
-                            if(htmloptions[i].cr236_setting.startsWith('TalentForm\\SuccessMessage')) {
-                                var object = htmloptions[i];
-                                var value = object.cr236_value.replace('/\n|\r\n?/', "<br>");
-                                
-                                var container = $('#K6er51g_talent_thankyou_container');
-                                
-                                container.find('h4').html(value);
-                            }
-                        
-                        }
-                        $('#K6er51g_overlay').css('display', 'none');
-                    }),
-                    method: 'post',
-                    dataType: 'json'
+                var input = $('input#K6er51g_siterequest_form_categories');
+                if ($('table#K6er51g_siterequest_form_categories_table>tbody>tr>td').length == 0) input.val(null);
+                $('table#K6er51g_siterequest_form_categories_table>tbody>tr>td').each(function() {
+                    if (data == "") data = this.textContent;
+                    else data = data + ", " + this.textContent; 
+                    input.val(data);
                 });
-                
+            }
+
+            $(document).on('click', 'table#K6er51g_siterequest_form_categories_table i.fa-minus-circle', function() {
+                $(this).closest('tr').remove();
+                updateCategories();
             });
-            
-            $(document).on('change', '#K6er51g_talent_form_talent', function() {
-                if ($(this).find(':selected').val() != "Intern") {
-                    $('#K6er51g_talent_form_dateend, #K6er51g_talent_form_course').closest('.row').css('display', 'none');
-                }
-                else {
-                    $('#K6er51g_talent_form_dateend, #K6er51g_talent_form_course').closest('.row').css('display', '');
-                }
-            })
-            
-            $(document).on('submit', 'form#K6er51g_talent_form', function(event) {
-                event.preventDefault();
-                
-                if(!validateEmail($('form#K6er51g_talent_form input[name="email"]').val())) {
-                    alert("Email is not in correct format");
+
+            $(document).on('keydown', 'table#K6er51g_siterequest_form_categories_table input', function(e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $('table#K6er51g_siterequest_form_categories_table i.fa-plus-circle').trigger('click');
                     return false;
                 }
+            });
 
-                if($('form#K6er51g_talent_form input[name="allowed"]').val() != "on") {
-                    alert('Sorry you cannot submit this application if you are not legally allowed to work in NZ');
+            $(document).on('change', '#K6er51g_siterequest_form_content', function() {
+                var value = $(this).find(':selected').val();
+                if (value == "true") {
+                    $('#K6er51g_siterequest_form_timerequired').parent().css('display', 'none');
                 }
-                
+                else {
+                    $('#K6er51g_siterequest_form_timerequired').parent().css('display', 'block');
+                }
+            });
+
+            $(document).on('click', 'table#K6er51g_siterequest_form_categories_table i.fa-plus-circle', function() {
+                var input = $(this).siblings('input')[0];
+
+                if (input.value == "") {
+                    var op = 1;
+                    var timer = setInterval(function () {
+                        if (op <= 0.1){
+                            input.style.border = 'none';
+                            clearInterval(timer);
+                        }
+                        else {
+                            input.style.borderRadius = '5px';
+                            input.style.border = '1px solid rgba(255,10,10,'+op+')';
+                            op -= op * 0.1;
+                        }
+                    }, 50);
+                }
+                else {
+                    $('table#K6er51g_siterequest_form_categories_table>tbody').append($('<tr><td><i class="fas fa-minus-circle"></i>' + input.value + '</td></tr>'));
+                    input.value = "";
+                    updateCategories();
+                }
+
+            });
+           
+            $(document).on('submit', 'form#K6er51g_siterequest_form', function(event) {
+                event.preventDefault();
+                                
                 var formData = new FormData(this);
                 $('#K6er51g_overlay').css('display', 'block');
                 $.ajax({
-                    url: 'https://kiwinet-api.azurewebsites.net/put/talentform/MjUvmNdXbVGVmgfNHH6nudYU8cB99FgfGkxwsdEe',
+                    url: 'https://kiwinet-api.azurewebsites.net/put/auaharequest/2U9zqxsedxQZEPK49dxs7mVsXwyBE6',
                     method: 'post',
                     data: formData,
                     success: function (data) {
                         $('#K6er51g_overlay').css('display', 'none');
-                        $('#K6er51g_talent_form_container').css('display', 'none');                        
-                        $('#K6er51g_talent_thankyou_container').css('display', 'block');
+                        $('#K6er51g_siterequest_form_container').css('display', 'none');                        
+                        $('#K6er51g_siterequest_thankyou_container').css('display', 'block');
                         console.log(data);
                     },
                     error: function (data) {
@@ -160,14 +96,28 @@
             
         </script>
         <style>
+            div#K6er51g_siterequest_body .col-sm-12 label {
+                display: block;
+                margin-bottom: 1vh;
+            }
+
+            div#K6er51g_siterequest_body span.instructions {
+                display: block;
+                padding: 0 0 1vh 0;
+                font-style: italic;
+            }
+
+            div#K6er51g_siterequest_body input, div#K6er51g_siterequest_body select {
+                margin: 1vh 0 0 0;
+            }
 
             .kiwinet_K6er51g {
                 background: white;
                 border: 1px solid gray;
-                box-shadow: 0.5vw 0.5vw 1vw 0 grey;
+                /*box-shadow: 0.5vw 0.5vw 1vw 0 grey;*/
             }
 
-            #K6er51g_talent_body {
+            #K6er51g_siterequest_body {
                 position: relative;
             }
 
@@ -179,15 +129,12 @@
                 padding: 2vw;
             }
             
-            div#K6er51g_talent_form_container label {
+            div#K6er51g_siterequest_form_container label {
                 font-weight: bold;
             }
 
-            div#K6er51g_talent_body .col-md-12 h1 {
-                text-align: center;
-            }
-
             #K6er51g_overlay {
+                display: none;
                 position: absolute;
                 width: 100%;
                 height: 100%;
@@ -197,12 +144,12 @@
                 background: rgba(255,255,255,0.8) url("https://kiwinet.blob.core.windows.net/publicfluxx/loader.gif") center no-repeat;
             }
             
-            fieldset.K6er51g_talent_form_checkboxlist div.row label, .row > .K6er51g_talent_form_checkbox_any + label {
+            fieldset.K6er51g_siterequest_form_checkboxlist div.row label, .row > .K6er51g_siterequest_form_checkbox_any + label {
                 max-width: 90%;
             }
             
             .kiwinet_K6er51g {
-                font-family: inherit;
+                font-family: calibri;
                 color: inherit;
             }
             
@@ -212,7 +159,7 @@
 
             .kiwinet_K6er51g form {
                 padding: 0 1vh;
-                font-family: inherit;
+                font-family: calibri;
                 color: inherit;
             }
 
@@ -220,7 +167,7 @@
                 height: 20vh;
             }
 
-            .kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
+            /*.kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
                 content: '';
                 background-color: lightgray;
                 background: -webkit-gradient(linear, 0 0, 100% 0, from(lightgray), to(white), color-stop(200%, lightgray));
@@ -228,7 +175,7 @@
                 height: 1px;
                 width: 100%;
                 display: block;
-            }
+            }*/
             
             .K6er51g_div_underline {
                 margin: 1vh 0 2vh 0;
@@ -236,23 +183,25 @@
             
             .K6er51g_div_underline::after {
                 content: '';
-                background-color: gray;
-                background: radial-gradient(circle, gray 0%, white 100%);
-                margin-top: 5px;
-                height: 1px;
+                background-color: black;
+                background: radial-gradient(circle, black 0%, white 100%);
+                margin-top: 4vh;
+                height: 2px;
                 width: 100%;
                 display: block;
+                margin-bottom: 4vh;
             }
             
             .K6er51g_div_underline {
                 margin-bottom: 1vh;
             }
 
-            .kiwinet_K6er51g form input, 
-            .kiwinet_K6er51g form textarea,
-            .kiwinet_K6er51g form select {
+            .kiwinet_K6er51g form input, .kiwinet_K6er51g form textarea, .kiwinet_K6er51g form select {
                 width: 100%;
-                border: none;
+                border: 1px solid lightgray;
+                border-radius: 5px;
+                padding: 7px;
+                box-shadow: 3px 3px 5px -2px lightgrey;
             }
 
             .kiwinet_K6er51g form input[type="checkbox"] {
@@ -261,270 +210,622 @@
 
             .kiwinet_K6er51g form input:focus,
             .kiwinet_K6er51g form textarea:focus,
-            .kiwinet_K6er51g form select:focus {
-                outline: none;
+            .kiwinet_K6er51g form select:focus,
+            .kiwinet_K6er51g form input:focus-visible,
+            .kiwinet_K6er51g form textarea:focus-visible,
+            .kiwinet_K6er51g form select:focus-visible {
+                outline: none
+            }
+
+            table#K6er51g_siterequest_form_categories_table td {
+                padding: 1vh 0 0 0;
+            }
+
+            table#K6er51g_siterequest_form_categories_table i.fa-minus-circle,
+            table#K6er51g_siterequest_form_categories_table i.fa-plus-circle {
+                position: absolute;
+                margin-left: -1.5vw;
+                cursor: pointer;
+            }
+
+            .section-heading h3 {
+                text-align: left;
+                color: #135A90;
+                font-size: xx-large;
+                font-weight: bold;
+            }
+
+            .widget-title h1 {
+                color: #135A90;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: -2vh;
+            }
+
+            #K6er51g_siterequest_form label {
+                color: #135A90;
+            }
+
+            #K6er51g_siterequest_form .instructions {
+                color: #538135;
+            }
+
+            #K6er51g_siterequest_form_container section {
+                margin-top: 4vh;
             }
 
         </style>
     </section>
 
-    
-    
-    <form method="post" enctype="multipart/form-data" id="K6er51g_talent_form">
-    <div id="K6er51g_talent_body" class="container_fluid">
-        <div id="K6er51g_overlay"></div>
-        <section class="K6er51g_div_underline">
-        <div class="row">
-            <div class="col-md-12">
-                <h1>Talent Application</h1>
-                <p>All the information you provide via the fields below, will be accessible to <a href="https://kiwinet.org.nz/About/Members" target="_blank">KiwiNet member organisations</a>.</p>
-            </div>
-        </div>
-        </section>
-        
-        <div id="K6er51g_talent_form_container">
-        <section class="K6er51g_div_underline">
-        <div class="row">
-            <div class="col-md-6">
+    <form method="post" enctype="multipart/form-data" id="K6er51g_siterequest_form">
+        <div id="K6er51g_siterequest_body" class="container_fluid">
+            <div id="K6er51g_overlay"></div>
+            <section class="K6er51g_div_underline">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <label for="K6er51g_talent_form_type">Talent Type</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <select name="type" id="K6er51g_talent_form_talent">
-                            <option value="Intern">Internship</option>
-                            <option value="Talent">Job</option>
-                            <option value="Secondee">Secondment</option>
-
-                        </select>
+                    <div class="col-md-12 widget-title">
+                        <h1>Auaha Challenge Request</h1>
                     </div>
                 </div>
-            </div>
-        </div>
-        </section>
-            <section class="K6er51g_div_underline">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="K6er51g_talent_form_name">Full Name</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="name" type="text" id="K6er51g_talent_form_name" placeholder="Full Name...">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="K6er51g_talent_form_email">Email</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="email" type="text" id="K6er51g_talent_form_email" placeholder="Email...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="K6er51g_talent_form_mobile">Mobile</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="mobile" type="text" id="K6er51g_talent_form_mobile" placeholder="Mobile...">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3 col-md-9">
-                            <label for="K6er51g_talent_form_allowed">Are you legally allowed to work in NZ?</label>
-                        </div>
-                        <div class="col-sm-9 col-md-3">
-                            <input name="allowed" type="checkbox" id="K6er51g_talent_form_allowed">
-                        </div>
-                    </div>
-                </div>
-            </div>
             </section>
-        
+            
+            <div id="K6er51g_siterequest_form_container">
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Challenge Information</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_name">Title *</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input required name="name" type="text" id="K6er51g_siterequest_form_name" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_CTA">One Liner or Call to Action</label>
+                                    <span class="instructions">This will display on your challenge tile</span>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input name="cta" type="text" id="K6er51g_siterequest_form_CTA" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_description">Brief Description</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="description" id="K6er51g_siterequest_form_description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_purpose">Challenge Purpose</label>
+                                    <span class="instructions">The Context, The Problem, The Target, etc</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="purpose" id="K6er51g_siterequest_form_purpose"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="K6er51g_siterequest_form_categories">Categories</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input id="K6er51g_siterequest_form_categories" type="text" hidden name="categories"/>
+
+                                    <table id="K6er51g_siterequest_form_categories_table">
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr><td><i class="fas fa-plus-circle"></i><input type="text" id="K6er51g_siterequest_form_categories_new" placeholder="New Category...."></td></tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_type">Challenge Type</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="type" id="K6er51g_siterequest_form_type">
+                                        <option value="Standard">Standard</option>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="Bespoke">Bespoke</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Challenge Content</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_pages">Number of Content Pages</label>
+                                    <span class="instructions">Please refer to <a target="_blank" href="https://kiwinet.brightidea.com/ct/c_p.bix">initiative pricing</a></span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="number" name="pages" id="K6er51g_siterequest_form_pages">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_content">Has this content already been developed?</label>
+                                    <span class="instructions">Do you have the content developed already, or do you need some time, if so, how long?</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="content" id="K6er51g_siterequest_form_content">
+                                        <option selected value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input placeholder="How long do you need to complete the content?" type="text" name="time" id="K6er51g_siterequest_form_timerequired">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Branding</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_basetemplate">Base Template</label>
+                                    <span class="instructions">Please select your prefered base template for your challange</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="basetemplate" id="K6er51g_siterequest_form_basetemplate">
+                                        <option value="Template 1">Template 1</option>
+                                        <option value="Template 2">Template 2</option>
+                                        <option value="Template 3">Template 3</option>
+                                        <option value="Template 4">Template 4</option>
+                                        <option value="Template 5">Template 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_basetemplateoptions">Base Templates:</label>
+                                    <span class="instructions">
+                                        <a href="https://auaha.brightidea.com/Template1" target="_blank">Template 1</a><br>
+                                        <a href="https://auaha.brightidea.com/Template2" target="_blank">Template 2</a><br>
+                                        <a href="https://auaha.brightidea.com/Template3" target="_blank">Template 3</a><br>
+                                        <a href="https://auaha.brightidea.com/Template4" target="_blank">Template 4</a><br>
+                                        <a href="https://auaha.brightidea.com/Template5" target="_blank">Template 5</a><br>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_guidelines">What are your branding guidelines</label>
+                                    <span class="instructions">List type eg banner and hex code - one per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="guidelines" id="K6er51g_siterequest_form_guidelines"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_thumbnail">Thumbnail Image</label>
+                                    <span class="instructions">Please include URL link to image - Sizes: 300x300px and 1920x1920px - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="thumbnail" id="K6er51g_siterequest_form_thumbnail"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_banner">Banner Image</label>
+                                    <span class="instructions">Please include URL link to image: 1920x600px - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="banner" id="K6er51g_siterequest_form_banner"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_videos">Any videos that you want included on content pages or submission forms</label>
+                                    <span class="instructions">Please provide a URL, not the video file - One per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="videos" id="K6er51g_siterequest_form_videos"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Submission Form</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_questions">List questions and type</label>
+                                    <span class="instructions">Types can be found <a target="_blank" href="https://support.brightidea.com/hc/en-us/articles/205840497-Submission-Form-Builder#two">here</a>, one per line</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="questions" id="K6er51g_siterequest_form_questions"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_editing">Participant Editing</label>
+                                    <span class="instructions">There are three options in the system that control how the participants can edit their applications AFTER they are submitted.
+                                        <ol>
+                                        <li>A participant can edit their application at any time during the pipeline (We do not recommend this)</li>
+                                        <li>A participant can edit their application at any time before the first action is taken, for example when the judging starts</li>
+                                        <li>A participant can edit their application up to 30mins after the application has been submitted (Recommended)</li></ol>
+                                        </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="editing" id="K6er51g_siterequest_form_content">
+                                        <option value="anytime">Anytime</option>
+                                        <option value="before">Before 1st Action</option>
+                                        <option selected value="30min">30min After Submission</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_team">Team Submission</label>
+                                    <span class="instructions">Applications can allow multiple people to work on a single proposal in the system. Please note that before people can be included in the team they have to register as well.
+                                        An alternative to the built-in teams function is to put in a question that asks for the team members information in the proposal form, this is a less restrictive option.
+                                        </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="team" id="K6er51g_siterequest_form_team">
+                                        <option selected value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_bi">Business Impact (Advaned and Bespoke only)</label>
+                                    <span class="instructions"><a href="https://support.brightidea.com/hc/en-us/articles/115012644828-Business-Impact" target="_blank">More Information</a> Note: for advanced and bespoke challanges only. </span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <select name="bi" id="K6er51g_siterequest_form_bi">
+                                        <option selected value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Scheduling and Pipeline</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_start">Start Date</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="date" name="start" id="K6er51g_siterequest_form_start">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_end">End Date</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="date" name="end" id="K6er51g_siterequest_form_end">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_pipeline">Pipeline</label>
+                                    <span class="instructions">Please list Stages, Steps and Review Type, definitions found <a target="_blank" href="https://support.brightidea.com/hc/en-us/articles/205844367-Stages-Step-Tool-Types-Action-Items">here</a></span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="pipeline" id="K6er51g_siterequest_form_pipeline"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_judges">Judges</label>
+                                    <span class="instructions">Please list any judges or evaluators (if known), and the steps they related to - Max of 30</span>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="judges" id="K6er51g_siterequest_form_judges"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <section class="K6er51g_div_underline">
+                    <div class="row">
+                        <div class="col-md-12 section-heading">
+                            <h3>Financial Information</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_financial_name">Business Name</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="text" name="financial_name" id="K6er51g_siterequest_financial_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_financial_acct">GST Number</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <input type="text" name="financial_acct" id="K6er51g_siterequest_form_financial_acct">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-12">
+                                    <label for="K6er51g_siterequest_form_financial_address">Address</label>
+                                </div>
+                                <div class="col-sm-9 col-sm-12">
+                                    <textarea name="financial_address" id="K6er51g_siterequest_form_financial_address"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
             <section class="K6er51g_div_underline">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Dates you are available for an internship</label>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="K6er51g_talent_form_datestart">Start Date</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="datestart" type="date" id="K6er51g_talent_form_datestart">
-                        </div>
+                <div class="row">
+                    <div class="col-md-12 section-heading">
+                        <h3>Other Information</h3>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="K6er51g_talent_form_dateend">End Date</label>
-                        </div>
-                        <div class="col-sm-9">
-                            <input name="dateend" type="date" id="K6er51g_talent_form_dateend">
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <div class="row">
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3 col-md-9">
-                            <label for="K6er51g_talent_form_relocate">Happy to Relocate?</label>
-                        </div>
-                        <div class="col-sm-9 col-md-3">
-                            <input name="relocate" type="checkbox" id="K6er51g_talent_form_relocate">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3 col-md-9">
-                            <label for="K6er51g_talent_form_course">Is this related to an existing course requirement?</label>
-                        </div>
-                        <div class="col-sm-9 col-md-3">
-                            <input name="course" type="checkbox" id="K6er51g_talent_form_course">
+           
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_contact">Primary Contact for this initiative</label>
+                                <span class="instructions">Include name and contact information</span>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <textarea name="contact" id="K6er51g_siterequest_form_contact"></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_admin">Admin for Challenge?</label>
+                                <span class="instructions">Include name and email address</span>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <textarea name="admin" id="K6er51g_siterequest_form_admin"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_terms">Terms and Conditions</label>
+                                <span class="instructions">Are there any T’s and C’s that participants need to agree to?</span>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="terms" id="K6er51g_siterequest_form_terms">
+                                    <option value="false">No</option>
+                                    <option selected value="true">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_public">Should this Challenge be public or by registration only?</label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="public" id="K6er51g_siterequest_form_public">
+                                    <option selected value="false">Registration Only</option>
+                                    <option value="true">Public</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3 col-md-9">
-                            <label for="K6er51g_talent_form_mentor">Would you like a mentor?</label>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_visible">Should submissions be visible to other participants?</label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="visible" id="K6er51g_siterequest_form_visible">
+                                    <option selected value="false">Hidden</option>
+                                    <option value="true">Visible</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-sm-9 col-md-3">
-                            <input name="mentor" type="checkbox" id="K6er51g_talent_form_mentor">
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_voting">If submissions are visible would you like voting enabled on this Challenge? <a href="https://support.brightidea.com/hc/en-us/articles/205841467-Voting-on-Submissions" target="_blank">Voting?</a></label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="voting" id="K6er51g_siterequest_form_visible">
+                                    <option selected value="false">Voting Disabled</option>
+                                    <option value="true">Voting Enabled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-12">
+                                <label for="K6er51g_siterequest_form_commenting">If submissions are visible would you like commenting enabled on this Challenge?</label>
+                            </div>
+                            <div class="col-sm-9 col-sm-12">
+                                <select name="commenting" id="K6er51g_siterequest_form_visible">
+                                    <option selected value="false">Commenting Disabled</option>
+                                    <option value="true">Commenting Enabled</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
             </section>
-                
-            <div class="row K6er51g_div_underline">
-                <div class="col-md-12">
-                    <label>Areas of Commercialisation Interest</label>
-                </div>
-                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
-                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="interest" value="Any - No Preference"/>
 
-                    <div class="row">
-                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_interest_any">
-                        <label for="K6er51g_talent_form_interest_any">
-                            Any - No Preference
-                        </label>
+            <section class="K6er51g_div_underline">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-sm-12">
+                                                <label for="K6er51g_siterequest_form_signoff_name">Authorised By *</label>
+                                            </div>
+                                            <div class="col-sm-9 col-sm-12">
+                                                <input required type="text" name="signoff_name" id="K6er51g_siterequest_form_signoff_name"></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-sm-12">
+                                                <label for="K6er51g_siterequest_form_signoff_date">Date *</label>
+                                            </div>
+                                            <div class="col-sm-9 col-sm-12">
+                                                <input required type="date" name="signoff_date" id="K6er51g_siterequest_form_signoff_date"></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label for="K6er51g_siterequest_form_shareholder">Are you a KiwiNet Shareholder</label>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input type="checkbox" name="shareholder" id="K6er51g_siterequest_form_shareholder"></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input id="K6er51g_siterequest_form_submit" type="submit" class="btn btn-success">
+                                <label style="font-weight: normal; font-size: smaller;" for="K6er51g_siterequest_form_submit">Submitting this request, forms an agreement between the submitter and Auaha to intiate a Challenge.</label>
+                            </div>
+                        </div>
                     </div>
-
-
-                    <fieldset name="organisation" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_interest">
-                        <div class="col-md-6" id="K6er51g_talent_form_interest_col1">                    
-                        </div>
-                        <div class="col-md-6" id="K6er51g_talent_form_interest_col2">
-                        </div>
-                    </fieldset>
                 </div>
+            
+            </section>
+
+            
             </div>
 
-            <div class="row K6er51g_div_underline">
-                <div class="col-md-12">
-                    <label>Preferred Organisation</label>
-                </div>
-                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
-                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="organisation" value="Any - No Preference"/>
-
-                    <div class="row">
-                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_organisation_any">
-                        <label for="K6er51g_talent_form_organisation_any">
-                            Any - No Preference
-                        </label>
-                    </div>
-
-                    <fieldset name="organisation" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_organisation">
-                        <div class="col-md-6" id="K6er51g_talent_form_organisation_col1">                    
-                        </div>
-                        <div class="col-md-6" id="K6er51g_talent_form_organisation_col2">
-                        </div>
-                    </fieldset>
-                </div>
+            <div id="K6er51g_siterequest_thankyou_container" style="display:none;">
+                <h4 style="
+                    text-align: center;
+                    margin: 6vh 11vw;
+            "><b>Thank you</b><br>
+        Your application has been submitted and will be reviewed by KiwiNet Manangement.</h4>
             </div>
-
-            <div class="row K6er51g_div_underline">
-                <div class="col-md-12">
-                    <label>Preferred Region</label>
-                </div>
-                <div class="col-md-12 K6er51g_talent_form_checkboxlist">
-                    <input type="text" id="K6er51g_talent_form_checkboxlist_data" hidden name="region" value="Any - No Preference"/> 
-
-                    <div class="row">
-                        <input checked type="checkbox" class="K6er51g_talent_form_checkbox_any" value="Any - No Preference" id="K6er51g_talent_form_region_any">
-                        <label for="K6er51g_talent_form_region_any">
-                            Any - No Preference
-                        </label>
-                    </div>
-
-                    <fieldset name="region" class="row K6er51g_talent_form_checkboxlist" id="K6er51g_talent_form_region">
-                        <div class="col-md-6" id="K6er51g_talent_form_region_col1">                    
-                        </div>
-                        <div class="col-md-6" id="K6er51g_talent_form_region_col2">
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-sm-3 col-sm-12">
-                            <label for="K6er51g_talent_form_about">About You</label>
-                        </div>
-                        <div class="col-sm-9 col-sm-12">
-                            <textarea name="about" id="K6er51g_talent_form_about"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-3 col-sm-12">
-                            <label for="K6er51g_talent_form_cv">Upload CV (pdf,doc,docx - max 5M)</label>
-                        </div>
-                        <div class="col-sm-9 col-sm-12">
-                            <input type="file" name="cv" id="K6er51g_talent_form_cv" accept=".pdf,.doc,.docx">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row justify-content-end">
-                        <div class="col-sm-6">
-                            <input type="submit" class="btn btn-success" accept=".pdf,.doc,.docx">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="K6er51g_talent_thankyou_container" style="display:none;">
-            <h4 style="
-                text-align: center;
-                margin: 6vh 11vw;
-           "><b>Thank you</b><br>
-    Your application has been submitted and will be reviewed by KiwiNet Manangement.</h4>
-        </div>
         </div>
     </form>
+</div>
+
 </div>
