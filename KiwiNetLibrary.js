@@ -215,6 +215,7 @@ methods.fluxxRegrantButton = function(modelID) {
                 $('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').each(function() {
                     $(this).removeClass('to-modal');
                     $(this).addClass('new-detail');
+                    $(this).attr('data-insert', 'after');
                 })
             });
         }
