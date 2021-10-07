@@ -110,7 +110,6 @@ var KiwiNet = (function() {
                   url: "https://cdn.tiny.cloud/1/2r95o2cgzpvzweghblom1djd4aoinula83gidgqlojsvcx45/tinymce/4/tinymce.min.js",
                   dataType: "script",
                   success: function() {
-                    var timeout = false;
 
                     var waitForEl = function(callback) {
                     console.log("polling on model - " + modelID);
@@ -122,17 +121,6 @@ var KiwiNet = (function() {
                         }, 100);
                       }
                     };
-
-                    var waitForRegrantButton = function(callback) {
-                        console.log("polling on regrant modal - " + modelID);
-                          if ($('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').length || timeout) {
-                            callback();
-                          } else {
-                            setTimeout(function() {
-                                waitForRegrantButton(callback);
-                            }, 100);
-                          }
-                        };
     
                     waitForEl(function() {
                         $('[data-model-id="'+modelID+'"].detail .redactor-box').each(function() { 
@@ -191,21 +179,47 @@ var KiwiNet = (function() {
                             },
                             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                         });
-                        timeout = true;
                     });
-
-                    waitForRegrantButton(function() {
-                        $('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').each(function() {
-                            $(this).removeClass('to-modal');
-                            $(this).addClass('new-detail');
-                        })
-                    })
 
                 }
                 });
             }
         }
     }
+
+
+        //Init Fluxx Regrant Button
+    /*INSTALL CODE
+<script>
+    if (typeof KiwiNet != 'undefined') {
+        KiwiNet.fluxxRegrantButton("{{ model.id }}");
+    }
+</script>
+    */
+methods.fluxxRegrantButton = function(modelID) {
+    if(modelID != undefined && modelID != null) {
+        var db = methods.getUrlParameter('db');
+        if (db === undefined) {
+            var waitForRegrantButton = function(callback) {
+                console.log("polling on regrant modal - " + modelID);
+                  if ($('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').length || timeout) {
+                    callback();
+                  } else {
+                    setTimeout(function() {
+                        waitForRegrantButton(callback);
+                    }, 100);
+                  }
+            };
+
+            waitForRegrantButton(function() {
+                $('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').each(function() {
+                    $(this).removeClass('to-modal');
+                    $(this).addClass('new-detail');
+                })
+            });
+        }
+    }
+}
 
     //Userguiding - Fluxx Container
         /*INSTALL CODE
