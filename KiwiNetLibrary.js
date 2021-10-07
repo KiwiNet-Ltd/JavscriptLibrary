@@ -202,7 +202,7 @@ methods.fluxxRegrantButton = function(modelID) {
         if (db === undefined) {
             var waitForRegrantButton = function(callback) {
                 console.log("polling on regrant modal - " + modelID);
-                  if ($('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').length || timeout) {
+                  if ($('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').length) {
                     callback();
                   } else {
                     setTimeout(function() {
