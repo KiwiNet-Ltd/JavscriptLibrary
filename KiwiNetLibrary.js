@@ -222,6 +222,41 @@ methods.fluxxRegrantButton = function(modelID) {
     }
 }
 
+
+
+    //Init Fluxx rename Save
+    /*INSTALL CODE
+<script>
+    if (typeof KiwiNet != 'undefined') {
+        if (typeof KiwiNet.fluxxRenameSave != 'undefined') {
+            KiwiNet.fluxxRenameSave("{{ model.id }}");
+        }
+    }
+</script>
+    */
+methods.fluxxRenameSave = function(modelID) {
+    if(modelID != undefined && modelID != null) {
+        var db = methods.getUrlParameter('db');
+        if (db === undefined) {
+            var waitForSaveButton = function(callback) {
+                console.log("polling on regrant modal - " + modelID);
+                  if ($('[data-model-id="'+modelID+'"].detail footer section.edit a[data-cy="save-button"]').length) {
+                    callback();
+                  } else {
+                    setTimeout(function() {
+                        waitForSaveButton(callback);
+                    }, 100);
+                  }
+            };
+
+            waitForSaveButton(function() {
+                $('[data-model-id="'+modelID+'"].detail footer section.edit a[data-cy="save-button"]').text('Save Draft');
+            });
+        }
+    }
+}
+
+
     //Userguiding - Fluxx Container
         /*INSTALL CODE
 <script>
