@@ -11,12 +11,10 @@
     }
 
 	var configArray = [{
-		remove_script_host : false,
-		convert_urls : false,
-        toolbar: [
-            'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
-            'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
-        ],
+		toolbar: [
+		    'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
+		    'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
+		],
 		plugins : "lists,advlist,pagebreak,save,table,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,-n1ed",
 		apiKey: "VGE2DFLT",
 		media_live_embeds: false,
@@ -24,10 +22,10 @@
 			'n1ed': 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/n1ed/plugin.js'
 		},
 		height: 600,
-        Flmngr: {
-            urlFiles: url,
-            urlFileManager: server
-        }
+		Flmngr: {
+		    urlFiles: url,
+		    urlFileManager: server
+		}
 	}];
 
 	function switchWidgetEditabilityRich(id, edit_body) {
