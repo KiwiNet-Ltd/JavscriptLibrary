@@ -54,7 +54,7 @@
                 $('#K6er51g_overlay').css('display', 'block');
                 var htmloptions = [];
                 $.ajax({
-                    url: 'https://kiwinet-api.azurewebsites.net/get/oip-html-options/5Wm8HH9Kq9ySaudAM79jvZu8g7FFuaTCEnGzbwaFJ6ZBPpDhzb',
+                    url: 'https://integration.powerlabs.co.nz/api/noauth/kiwinet/qhmpm9QyQHH9nxYjRcBSsLTm6Zor8Yoo/dynamicsdata/oip-html-options',
                     success:(function(data){
                         htmloptions = data.value;
                         for (var i = 0; i < htmloptions.length; i++) {
@@ -136,7 +136,7 @@
                 var formData = new FormData(this);
                 $('#K6er51g_overlay').css('display', 'block');
                 $.ajax({
-                    url: 'https://kiwinet-api.azurewebsites.net/put/talentform/MjUvmNdXbVGVmgfNHH6nudYU8cB99FgfGkxwsdEe',
+                    url: 'https://integration.powerlabs.co.nz/api/noauth/kiwinet/qhmpm9QyQHH9nxYjRcBSsLTm6Zor8Yoo/talentform',
                     method: 'post',
                     data: formData,
                     success: function (data) {

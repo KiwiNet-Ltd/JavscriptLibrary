@@ -72,7 +72,7 @@
                 var formData = new FormData(this);
                 $('#K6er51g_overlay').css('display', 'block');
                 $.ajax({
-                    url: 'https://kiwinet-api.azurewebsites.net/put/auaharequest/2U9zqxsedxQZEPK49dxs7mVsXwyBE6',
+                    url: 'https://integration.powerlabs.co.nz/api/noauth/kiwinet/qhmpm9QyQHH9nxYjRcBSsLTm6Zor8Yoo/auaharequest',
                     method: 'post',
                     data: formData,
                     success: function (data) {
@@ -103,7 +103,7 @@
 
             div#K6er51g_siterequest_body span.instructions {
                 display: block;
-                padding: 0 0 1vh 0;
+                padding: 0 0 1vh 1vw;
                 font-style: italic;
             }
 
@@ -114,7 +114,7 @@
             .kiwinet_K6er51g {
                 background: white;
                 border: 1px solid gray;
-                /*box-shadow: 0.5vw 0.5vw 1vw 0 grey;*/
+                box-shadow: 0.5vw 0.5vw 1vw 0 grey;
             }
 
             #K6er51g_siterequest_body {
@@ -133,6 +133,10 @@
                 font-weight: bold;
             }
 
+            div#K6er51g_siterequest_body .col-md-12 h1 {
+                text-align: center;
+            }
+
             #K6er51g_overlay {
                 display: none;
                 position: absolute;
@@ -149,7 +153,7 @@
             }
             
             .kiwinet_K6er51g {
-                font-family: calibri;
+                font-family: inherit;
                 color: inherit;
             }
             
@@ -159,7 +163,7 @@
 
             .kiwinet_K6er51g form {
                 padding: 0 1vh;
-                font-family: calibri;
+                font-family: inherit;
                 color: inherit;
             }
 
@@ -167,7 +171,7 @@
                 height: 20vh;
             }
 
-            /*.kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
+            .kiwinet_K6er51g form .col-sm-9::after, .kiwinet_K6er51g form .col-md-3::after {
                 content: '';
                 background-color: lightgray;
                 background: -webkit-gradient(linear, 0 0, 100% 0, from(lightgray), to(white), color-stop(200%, lightgray));
@@ -175,7 +179,7 @@
                 height: 1px;
                 width: 100%;
                 display: block;
-            }*/
+            }
             
             .K6er51g_div_underline {
                 margin: 1vh 0 2vh 0;
@@ -183,25 +187,23 @@
             
             .K6er51g_div_underline::after {
                 content: '';
-                background-color: black;
-                background: radial-gradient(circle, black 0%, white 100%);
-                margin-top: 4vh;
-                height: 2px;
+                background-color: gray;
+                background: radial-gradient(circle, gray 0%, white 100%);
+                margin-top: 5px;
+                height: 1px;
                 width: 100%;
                 display: block;
-                margin-bottom: 4vh;
             }
             
             .K6er51g_div_underline {
                 margin-bottom: 1vh;
             }
 
-            .kiwinet_K6er51g form input, .kiwinet_K6er51g form textarea, .kiwinet_K6er51g form select {
+            .kiwinet_K6er51g form input, 
+            .kiwinet_K6er51g form textarea,
+            .kiwinet_K6er51g form select {
                 width: 100%;
-                border: 1px solid lightgray;
-                border-radius: 5px;
-                padding: 7px;
-                box-shadow: 3px 3px 5px -2px lightgrey;
+                border: none;
             }
 
             .kiwinet_K6er51g form input[type="checkbox"] {
@@ -210,11 +212,8 @@
 
             .kiwinet_K6er51g form input:focus,
             .kiwinet_K6er51g form textarea:focus,
-            .kiwinet_K6er51g form select:focus,
-            .kiwinet_K6er51g form input:focus-visible,
-            .kiwinet_K6er51g form textarea:focus-visible,
-            .kiwinet_K6er51g form select:focus-visible {
-                outline: none
+            .kiwinet_K6er51g form select:focus {
+                outline: none;
             }
 
             table#K6er51g_siterequest_form_categories_table td {
@@ -228,32 +227,6 @@
                 cursor: pointer;
             }
 
-            .section-heading h3 {
-                text-align: left;
-                color: #135A90;
-                font-size: xx-large;
-                font-weight: bold;
-            }
-
-            .widget-title h1 {
-                color: #135A90;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: -2vh;
-            }
-
-            #K6er51g_siterequest_form label {
-                color: #135A90;
-            }
-
-            #K6er51g_siterequest_form .instructions {
-                color: #538135;
-            }
-
-            #K6er51g_siterequest_form_container section {
-                margin-top: 4vh;
-            }
-
         </style>
     </section>
 
@@ -262,8 +235,8 @@
             <div id="K6er51g_overlay"></div>
             <section class="K6er51g_div_underline">
                 <div class="row">
-                    <div class="col-md-12 widget-title">
-                        <h1>Auaha Challenge Request</h1>
+                    <div class="col-md-12">
+                        <h1>Auaha Challange Request</h1>
                     </div>
                 </div>
             </section>
@@ -271,18 +244,18 @@
             <div id="K6er51g_siterequest_form_container">
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
-                            <h3>Challenge Information</h3>
+                        <div class="col-md-12">
+                            <h3>Challange Information</h3>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label for="K6er51g_siterequest_form_name">Title <i style="color:red">*</i></label>
+                                    <label for="K6er51g_siterequest_form_name">Title</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input required name="name" type="text" id="K6er51g_siterequest_form_name" placeholder="">
+                                    <input name="name" type="text" id="K6er51g_siterequest_form_name" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -292,7 +265,6 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label for="K6er51g_siterequest_form_CTA">One Liner or Call to Action</label>
-                                    <span class="instructions">This will display on your challenge tile</span>
                                 </div>
                                 <div class="col-sm-9">
                                     <input name="cta" type="text" id="K6er51g_siterequest_form_CTA" placeholder="">
@@ -316,7 +288,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_purpose">Challenge Purpose</label>
+                                    <label for="K6er51g_siterequest_form_purpose">Challange Purpose</label>
                                     <span class="instructions">The Context, The Problem, The Target, etc</span>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
@@ -326,7 +298,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <label for="K6er51g_siterequest_form_categories">Categories</label>
@@ -344,27 +316,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_type">Challenge Type <i style="color:red">*</i></label>
-                                </div>
-                                <div class="col-sm-9 col-sm-12">
-                                    <select required name="type" id="K6er51g_siterequest_form_type">
-                                        <option value="Standard">Standard</option>
-                                        <option value="Advanced">Advanced</option>
-                                        <option value="Bespoke">Bespoke</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </section>
 
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
-                            <h3>Challenge Content</h3>
+                        <div class="col-md-12">
+                            <h3>Challange Content</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -372,7 +330,7 @@
                             <div class="row">
                                 <div class="col-sm-3 col-sm-12">
                                     <label for="K6er51g_siterequest_form_pages">Number of Content Pages</label>
-                                    <span class="instructions">Please refer to <a target="_blank" href="https://kiwinet.brightidea.com/ct/c_p.bix">initiative pricing</a></span>
+                                    <span class="instructions">For free options (refer <a target="_blank" href="https://kiwinet.brightidea.com/ct/c_c.bix">initiative pricing</a> - 2 pages (max), Standard and Bespoke initiatives options are up to 20 pages </span>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
                                     <input type="number" name="pages" id="K6er51g_siterequest_form_pages">
@@ -392,7 +350,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
-                                    <input placeholder="How long do you need to complete the content?" type="text" name="time" id="K6er51g_siterequest_form_timerequired">
+                                    <input placeholder="How long? (X Days, X months, etc)" type="text" name="time" id="K6er51g_siterequest_form_timerequired">
                                 </div>
                             </div>
                         </div>
@@ -401,41 +359,8 @@
 
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
+                        <div class="col-md-12">
                             <h3>Branding</h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_basetemplate">Base Template</label>
-                                    <span class="instructions">Please select your prefered base template for your challange <i style="color:red">*</i></span>
-                                </div>
-                                <div class="col-sm-9 col-sm-12">
-                                    <select required name="basetemplate" id="K6er51g_siterequest_form_basetemplate">
-                                        <option value="Template 1">Template 1</option>
-                                        <option value="Template 2">Template 2</option>
-                                        <option value="Template 3">Template 3</option>
-                                        <option value="Template 4">Template 4</option>
-                                        <option value="Template 5">Template 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_basetemplateoptions">Base Templates:</label>
-                                    <span class="instructions">
-                                        <a href="https://auaha.brightidea.com/Template1" target="_blank">Template 1</a><br>
-                                        <a href="https://auaha.brightidea.com/Template2" target="_blank">Template 2</a><br>
-                                        <a href="https://auaha.brightidea.com/Template3" target="_blank">Template 3</a><br>
-                                        <a href="https://auaha.brightidea.com/Template4" target="_blank">Template 4</a><br>
-                                        <a href="https://auaha.brightidea.com/Template5" target="_blank">Template 5</a><br>
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -465,7 +390,7 @@
                             <div class="row">
                                 <div class="col-sm-3 col-sm-12">
                                     <label for="K6er51g_siterequest_form_banner">Banner Image</label>
-                                    <span class="instructions">Please include URL link to image: 1920x300px - One per line</span>
+                                    <span class="instructions">Please include URL link to image: 1920x600px - One per line</span>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
                                     <textarea name="banner" id="K6er51g_siterequest_form_banner"></textarea>
@@ -488,7 +413,7 @@
 
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
+                        <div class="col-md-12">
                             <h3>Submission Form</h3>
                         </div>
                     </div>
@@ -540,27 +465,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_bi">Business Impact (Advaned and Bespoke only)</label>
-                                    <span class="instructions"><a href="https://support.brightidea.com/hc/en-us/articles/115012644828-Business-Impact" target="_blank">More Information</a> Note: for advanced and bespoke challanges only. </span>
-                                </div>
-                                <div class="col-sm-9 col-sm-12">
-                                    <select name="bi" id="K6er51g_siterequest_form_bi">
-                                        <option selected value="false">No</option>
-                                        <option value="true">Yes</option>
-                                    </select> 
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </section>
 
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
+                        <div class="col-md-12">
                             <h3>Scheduling and Pipeline</h3>
                         </div>
                     </div>
@@ -604,7 +515,7 @@
                             <div class="row">
                                 <div class="col-sm-3 col-sm-12">
                                     <label for="K6er51g_siterequest_form_judges">Judges</label>
-                                    <span class="instructions">Please list any judges or evaluators (if known), and the steps they related to - Max of 30</span>
+                                    <span class="instructions">Please list any judges or evaluators and the steps they relate to – Max of 30</span>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
                                     <textarea name="judges" id="K6er51g_siterequest_form_judges"></textarea>
@@ -618,7 +529,7 @@
 
                 <section class="K6er51g_div_underline">
                     <div class="row">
-                        <div class="col-md-12 section-heading">
+                        <div class="col-md-12">
                             <h3>Financial Information</h3>
                         </div>
                     </div>
@@ -637,7 +548,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-sm-3 col-sm-12">
-                                    <label for="K6er51g_siterequest_form_financial_acct">GST Number</label>
+                                    <label for="K6er51g_siterequest_form_financial_acct">Account Number</label>
                                 </div>
                                 <div class="col-sm-9 col-sm-12">
                                     <input type="text" name="financial_acct" id="K6er51g_siterequest_form_financial_acct">
@@ -664,7 +575,7 @@
 
             <section class="K6er51g_div_underline">
                 <div class="row">
-                    <div class="col-md-12 section-heading">
+                    <div class="col-md-12">
                         <h3>Other Information</h3>
                     </div>
                 </div>
@@ -685,7 +596,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-3 col-sm-12">
-                                <label for="K6er51g_siterequest_form_admin">Admin for Challenge?</label>
+                                <label for="K6er51g_siterequest_form_admin">Admin for challange?</label>
                                 <span class="instructions">Include name and email address</span>
                             </div>
                             <div class="col-sm-9 col-sm-12">
@@ -710,7 +621,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-3 col-sm-12">
-                                <label for="K6er51g_siterequest_form_public">Should this Challenge be public or by registration only?</label>
+                                <label for="K6er51g_siterequest_form_public">Should this challange be public or by registration only?</label>
                             </div>
                             <div class="col-sm-9 col-sm-12">
                                 <select name="public" id="K6er51g_siterequest_form_public">
@@ -738,7 +649,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-3 col-sm-12">
-                                <label for="K6er51g_siterequest_form_voting">If submissions are visible would you like voting enabled on this Challenge? <a href="https://support.brightidea.com/hc/en-us/articles/205841467-Voting-on-Submissions" target="_blank">Voting?</a></label>
+                                <label for="K6er51g_siterequest_form_voting">If submissions are visible would you like voting enabled on this challange? <a href="https://support.brightidea.com/hc/en-us/articles/205841467-Voting-on-Submissions" target="_blank">Voting?</a></label>
                             </div>
                             <div class="col-sm-9 col-sm-12">
                                 <select name="voting" id="K6er51g_siterequest_form_visible">
@@ -751,7 +662,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-3 col-sm-12">
-                                <label for="K6er51g_siterequest_form_commenting">If submissions are visible would you like commenting enabled on this Challenge?</label>
+                                <label for="K6er51g_siterequest_form_commenting">If submissions are visible would you like commenting enabled on this challange?</label>
                             </div>
                             <div class="col-sm-9 col-sm-12">
                                 <select name="commenting" id="K6er51g_siterequest_form_visible">
@@ -764,49 +675,14 @@
                 </div>
             </section>
 
+            
+                
             <section class="K6er51g_div_underline">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="row">
-                                            <div class="col-sm-3 col-sm-12">
-                                                <label for="K6er51g_siterequest_form_signoff_name">Authorised By <i style="color:red">*</i></label>
-                                            </div>
-                                            <div class="col-sm-9 col-sm-12">
-                                                <input required type="text" name="signoff_name" id="K6er51g_siterequest_form_signoff_name"></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="row">
-                                            <div class="col-sm-3 col-sm-12">
-                                                <label for="K6er51g_siterequest_form_signoff_date">Date <i style="color:red">*</i></label>
-                                            </div>
-                                            <div class="col-sm-9 col-sm-12">
-                                                <input required type="date" name="signoff_date" id="K6er51g_siterequest_form_signoff_date"></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <label for="K6er51g_siterequest_form_shareholder">Are you a KiwiNet Shareholder</label>
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <input type="checkbox" name="shareholder" id="K6er51g_siterequest_form_shareholder"></input>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <input id="K6er51g_siterequest_form_submit" type="submit" class="btn btn-success">
-                                <label style="font-weight: normal; font-size: smaller;" for="K6er51g_siterequest_form_submit">Submitting this request, forms an agreement between the submitter and Auaha to intiate a Challenge. This also indicates that you have read and accept the terms and conditions <a href="https://auaha.brightidea.com/ct/c_a.bix" target="_blank">Here</a></a></label>
+                            <div class="col-sm-6">
+                                <input type="submit" class="btn btn-success">
                             </div>
                         </div>
                     </div>
@@ -821,8 +697,8 @@
                 <h4 style="
                     text-align: center;
                     margin: 6vh 11vw;
-            "><b>Thank you for your application for a challenge site.</b><br>
-            One of our great Auaha Team members will be in touch with you to work through your new challenge as soon as possible.</h4>
+            "><b>Thank you</b><br>
+        Your application has been submitted and will be reviewed by KiwiNet Manangement.</h4>
             </div>
         </div>
     </form>

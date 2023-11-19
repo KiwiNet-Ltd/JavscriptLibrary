@@ -2,30 +2,20 @@
 
     $('#customFooter').append($('<script src="https://cdn.tiny.cloud/1/2r95o2cgzpvzweghblom1djd4aoinula83gidgqlojsvcx45/tinymce/5/tinymce.min.js" referrerpolicy="origin"><\/script>'));
 
-    var url = "https://kiwinet-api.azurewebsites.net/flmngr/files";
-    var server = "https://kiwinet-api.azurewebsites.net/flmngr/flmngr.php";
-    var id = window.campaign_id;
-    if (typeof id !== undefined && window.enterprise_site !== true) {
-        url = url + "/" + id;
-        server = server + "?id=" + id;
-    }
-
 	var configArray = [{
-		toolbar: [
-		    'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
-		    'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
-		],
-		plugins : "lists,advlist,pagebreak,save,table,insertdatetime,preview,media,searchreplace,print,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,link,-n1ed",
+		remove_script_host : false,
+		convert_urls : false,
+		mode : "none",
+        toolbar: [
+            'fontsizeselect | undo redo | styleselect | bold italic underline | link image',
+            'bullist bullist | outdent indent | subscript superscript | alignleft aligncenter alignright | removeformat'
+        ],
+		plugins : "lists,advlist,pagebreak,save,table,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,-n1ed",
 		apiKey: "VGE2DFLT",
-		media_live_embeds: false,
 		external_plugins: {
 			'n1ed': 'https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/n1ed/plugin.js'
 		},
-		height: 600,
-		Flmngr: {
-		    urlFiles: url,
-		    urlFileManager: server
-		}
+		height: 600
 	}];
 
 	function switchWidgetEditabilityRich(id, edit_body) {
