@@ -144,10 +144,12 @@ var KiwiNet = (function() {
                                 });
                             },
                             plugins: 'image code autoresize lists',
+                            //Updated
                             external_plugins: {
-                                'powerpaste': 'https://kiwinet.blob.core.windows.net/publicfluxx/powerpaste/t151rt65ht-65grh6rt1-65h6t1bt81-1rt814n8rt981rt.min.js'
+                                'powerpaste': 'https://kiwinetpublic.blob.core.windows.net/fluxx/powerpaste/t151rt65ht-65grh6rt1-65h6t1bt81-1rt814n8rt981rt.min.js'
                             },
-                            images_upload_url: 'https://prod-09.australiasoutheast.logic.azure.com:443/workflows/9087075b6cea4f6eafeadfcd4a2f420c/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=FiRyWu3OUNQHMRugsJAU7MtPA_TL9rnweZc7h4XVfrw',
+                            //Updated
+                            images_upload_url: 'https://prod-18.australiasoutheast.logic.azure.com:443/workflows/7a64d78e05b34fa68a1ac77565383b33/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uOO7lqurG_cWCHxNtAn3h4Xva_9TlnPsJD2ZpG8s5Iw',
                             image_title: true,
                             automatic_uploads: true,
                             file_picker_types: 'image',
@@ -163,9 +165,10 @@ var KiwiNet = (function() {
                                         var base64 = {
                                             "base64": reader.result
                                         };
+                                        //Updated
                                         var response = $.ajax({
                                             type: 'POST',
-                                            url: 'https://prod-29.australiasoutheast.logic.azure.com:443/workflows/f1cf17e3552e4ddc8037d2972b8efe51/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0uaSMGEuY-nF98dYM2OsekNdomzQ85KjrXNc31f7cUE',
+                                            url: 'https://prod-09.australiasoutheast.logic.azure.com:443/workflows/1eb6b18890d548d58d5c97bff4770c11/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hjCBan2_sicQwi3Au_FmB_wlfwKix4Fcz81r6UcrcRA',
                                             data: JSON.stringify(base64),
                                             dataType: "json",
                                             contentType: "application/json",
