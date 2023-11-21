@@ -54,9 +54,9 @@
                 $('#K6er51g_overlay').css('display', 'block');
                 var htmloptions = [];
                 $.ajax({
-                    url: 'https://integration.powerlabs.co.nz/api/noauth/kiwinet/qhmpm9QyQHH9nxYjRcBSsLTm6Zor8Yoo/dynamicsdata/oip-html-options',
+                    url: 'https://prod-31.australiasoutheast.logic.azure.com:443/workflows/150cdacfdfc840cc81ef8f5076517ee6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Uco6q6K3yaJ7tVV6Y29TcnVJJ2SQVXKBxFfssh4dtBg',
                     success:(function(data){
-                        htmloptions = data.value;
+                        htmloptions = data;
                         for (var i = 0; i < htmloptions.length; i++) {
                             if(htmloptions[i].cr236_setting.startsWith('TalentForm\\CheckboxList\\')) {
                                 var object = htmloptions[i];
