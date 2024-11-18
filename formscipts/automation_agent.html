@@ -1,0 +1,96 @@
+<script>
+    if (typeof KiwiNet == 'undefined') {
+        var script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/gh/KiwiNet-Ltd/JavscriptLibrary@release/KiwiNetLibrary.js";
+        document.getElementsByTagName('head')[0].appendChild(script);
+    }    
+</script>
+<script>
+var lastloggedin = "{{ user.last_login_at }}";
+    if (lastloggedin == "") {
+            window.UGshowintro = true;
+        }
+        else {
+            window.UGshowintro = false;
+        }
+</script>
+<div id="automationAgentScript"></div>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    var external;
+    $('#automationAgentScript').ready(function() {
+        var db = getUrlParameter('db');
+        external = $('body')[0].className.includes('portal_v1');
+        if (db === undefined) {
+           if(external){
+            //<span class="label" role="menuitem">Automation Agent</span>
+                $('span.label:contains(Automation Agent)').closest('li').remove();
+                var link = $('<li class="icon"><a class="link" target="_blank" href="https://portal.kiwinet.org.nz/reporting/#portfolio" title="Reporting Dashboard"><span class="label">Reporting Dashboard</span></a></li>');
+                $('ol#iconlist ul#information').append(link);
+            }
+            
+            var action = getUrlParameter('action');
+            if (action !== undefined) {
+                if (action.includes('openCard')) {
+                    var type = getUrlParameter('type');
+                    var id = getUrlParameter('id');
+                    var title = getUrlParameter('title');
+                    console.log(type);
+                    console.log(id);
+                    console.log(title);
+                    openFluxxCard(type, id, title);
+                }
+            }
+            function openFluxxCard(type,id,title) {
+                if (external) {
+                    searchType = type.replace(/s\s*$/, "");
+                    var s = {
+                      "listing": {
+                        "url": "/"+type,
+                        "data": [
+                          {
+                            "name": searchType + "[id][]",
+                            "value": id
+                          }
+                        ]
+                      },
+                      "title": title,
+                      "settings": {
+                        "locked": false,
+                        "emailNotifications": false,
+                        "modelTypeLabel": "Open"
+                      }
+                    };
+                    
+                    $.my.hand.addFluxxCard(s);
+                    
+                    $($('.label:contains("'+title+'")')[0].parentElement.getAttribute('href')).callPlugin('scrollToCard');
+                }
+                else {
+                    var t = {
+                      detail: {
+                        url: 'https://kiwinet.fluxx.io/'+type+'/'+id
+                      },
+                      title: title
+                    };
+                    $.my.hand.addFluxxCard(t);
+                }
+            }
+            var clean_uri = location.protocol + "//" + location.host + location.pathname;
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+        console.log( "window loaded" );
+    });
+</script>

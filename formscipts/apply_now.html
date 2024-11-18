@@ -1,0 +1,66 @@
+<style>
+    .text-left-block {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .button-right-block {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .form-element.text-element ul li {
+        list-style: outside !important;
+        margin-left: 25px;
+    }
+</style>
+
+<script>
+    var waitForEl = function(callback) {
+    console.log("polling");
+      if ($('[data-src="/generic_templates/25087"] h3[role="directory"]:visible').length) {
+        callback();
+      } else {
+        setTimeout(function() {
+          waitForEl(callback);
+        }, 100);
+      }
+    };
+
+    waitForEl(function() {
+        $('a.new-detail:contains("New Tier 1 Part 1")').each(function() { 
+            this.href = this.href + "&grant_request%5Btier_1_type%5D=Notification%2FPreview";
+        });
+        $('a.new-detail:contains("New Tier 1 Part 2")').each(function() { 
+             this.href = this.href.replace('draft_application', "t1_preview_draft_n") + "&grant_request%5Btier_1_type%5D=Notification%2FPreview";
+        });
+        $('a.new-detail:contains("New Tier 1 Part 3")').each(function() { 
+            this.href = this.href.replace('draft_application', "t1_part3_draft_n") + "&grant_request%5Btier_1_type%5D=Notification%2FPreview";
+        });
+        $('a.new-detail:contains("New Internship")').each(function() { 
+             this.href = this.href + "&grant_request%5Btier_1_type%5D=Internship Notification";
+        });
+        $('a.new-detail:contains("New Momentum")').each(function() { 
+             this.href = this.href + "&grant_request%5Btier_1_type%5D=Momentum Committee";
+        });
+        $('a.new-detail:contains("New Training")').each(function() { 
+             this.href = this.href + "&grant_request%5Btier_1_type%5D=Training Notification";
+        });
+        $('a.new-detail:contains("New Tier 2 Test Run")').each(function() { 
+             this.href = this.href + "&grant_request%5Btier_2_type%5D=Tier 2 Test Run %28No Funding%29";
+        });
+        $('a.new-detail:contains("New Tier 2 Application")').each(function() { 
+             this.href = this.href + "&grant_request%5Btier_2_type%5D=Standard Tier 2 Application";
+        });
+        
+        var leftText = $('h3:contains("class=text-left")');
+        leftText.parent().css("width","69%");
+        leftText.parent().addClass("text-left-block");
+        leftText.css("display","none");
+
+        var rightButtons = $('h3:contains("class=button-right")');
+        rightButtons.parent().css("width","29%");
+        rightButtons.parent().addClass("button-right-block");
+        rightButtons.css("display","none");
+
+        console.log('Apply Now changes made');
+    });
+</script>
