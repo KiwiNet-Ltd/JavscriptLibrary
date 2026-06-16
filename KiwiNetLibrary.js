@@ -359,7 +359,7 @@ var KiwiNet = (function() {
             }
 
             let attempts = 0;
-            const maxAttempts = 200;
+            const maxAttempts = 100;
 
             var waitForEl = () => {
                 attempts++;
@@ -390,7 +390,7 @@ var KiwiNet = (function() {
             // 1. Add reject to the Promise parameters
             return new Promise((resolve, reject) => {
                 let attempts = 0;
-                const maxAttempts = 200;
+                const maxAttempts = 100;
 
                 const waitForRedactor = () => {
                     attempts++;
@@ -500,7 +500,7 @@ var KiwiNet = (function() {
 
         return new Promise((resolve, reject) => {
             let attempts = 0;
-            const maxAttempts = 200;
+            const maxAttempts = 100;
 
             const waitForRegrantButton = () => {
                 attempts++;
@@ -537,7 +537,7 @@ var KiwiNet = (function() {
 
         return new Promise((resolve, reject) => {
             let attempts = 0;
-            const maxAttempts = 200;
+            const maxAttempts = 100;
 
             const waitForSaveButton = () => {
                 attempts++;
@@ -571,7 +571,7 @@ var KiwiNet = (function() {
 
         return new Promise((resolve, reject) => {
             let attempts = 0;
-            const maxAttempts = 200;
+            const maxAttempts = 100;
 
             const waitForElements = () => {
                 attempts++;
