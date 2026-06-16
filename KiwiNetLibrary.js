@@ -1,4 +1,4 @@
-/* INSTALL CODE
+/* INSTALL CODE (for V2 functions see section below for updated install script)
 <script>
     if (typeof KiwiNet == 'undefined') {
         var script = document.createElement("script");
