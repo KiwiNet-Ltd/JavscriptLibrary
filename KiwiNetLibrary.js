@@ -299,7 +299,7 @@ var KiwiNet = (function() {
 <script>
     (async function() {
         // 1. Core Configuration
-        window.kn_automatekey = "[replace with key from password manager]";
+        window.kn_automatekey = "";
         const currentModelID = "{{ model.id }}";
 
         // 2. Safely Load the KiwiNet Library
@@ -332,10 +332,10 @@ var KiwiNet = (function() {
             //KiwiNet.fluxxRenameSaveV2(currentModelID, $dialog).catch(err => console.warn(err));
             
             // Regrant Button
-            // KiwiNet.fluxxRegrantButtonV2(currentModelID, $dialog).catch(err => console.warn(err));
+            //KiwiNet.fluxxRegrantButtonV2(currentModelID, $dialog).catch(err => console.warn(err));
             
             // Replace Grantee Fields
-            // KiwiNet.fluxxReplaceGranteeFields(currentModelID, $dialog).catch(err => console.warn(err));
+            //KiwiNet.fluxxReplaceGranteeFields(currentModelID, $dialog).catch(err => console.warn(err));
 
         } catch (error) {
             // Catches missing IDs or master dialog polling timeouts
