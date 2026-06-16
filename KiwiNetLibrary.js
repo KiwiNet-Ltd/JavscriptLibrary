@@ -99,14 +99,7 @@ var KiwiNet = (function() {
         });
     };
         
-//Init Fluxx Rich Text Editors
-/*INSTALL CODE
-<script>
-    if (typeof KiwiNet != 'undefined') {
-        KiwiNet.fluxxRichTextEditors("{{ model.id }}");
-    }
-</script>
-*/
+//Init Fluxx Rich Text Editors (depreciated)
     methods.fluxxRichTextEditors = function(modelID) {
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
@@ -195,14 +188,7 @@ var KiwiNet = (function() {
         }
     }
 
-//Init Fluxx Regrant Button
-/*INSTALL CODE
-<script>
-    if (typeof KiwiNet != 'undefined') {
-        KiwiNet.fluxxRegrantButton("{{ model.id }}");
-    }
-</script>
-*/
+//Init Fluxx Regrant Button (depreciated)
     methods.fluxxRegrantButton = function(modelID) {
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
@@ -229,16 +215,7 @@ var KiwiNet = (function() {
         }
     }
 
-//Init Fluxx rename Save
-/*INSTALL CODE
-<script>
-    if (typeof KiwiNet != 'undefined') {
-        if (typeof KiwiNet.fluxxRenameSave != 'undefined') {
-            KiwiNet.fluxxRenameSave("{{ model.id }}");
-        }
-    }
-</script>
-*/
+//Init Fluxx rename Save (depreciated)
     methods.fluxxRenameSave = function(modelID) {
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
