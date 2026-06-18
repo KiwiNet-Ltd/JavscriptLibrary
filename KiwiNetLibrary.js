@@ -553,16 +553,16 @@ var KiwiNet = (function() {
             const waitForElements = () => {
                 attempts++;
                 console.debug(`Polling for Grantee fields on model ${modelID} - Attempt ${attempts}`);
-                const $orgSelect = $dialogContext.find('select[data-original-id="grant_request_program_organization_id"]');
-                const $primaryContactLi = $dialogContext.find('li[data-original-id="grant_request_grantee_org_owner_id_input"]');
-                const $signatoryLi = $dialogContext.find('li[data-original-id="grant_request_grantee_signatory_id_input"]');
+                const $orgSelect = $dialogContext.find('select[id^="grant_request_program_organization_id"]');
+                const $primaryContactLi = $dialogContext.find('li#grant_request_grantee_org_owner_id_input, li[data-notable-attribute="grantee_org_owner_id"]');
+                const $signatoryLi = $dialogContext.find('li#grant_request_grantee_signatory_id_input, li[data-notable-attribute="grantee_signatory_id"]');
 
                 if ($orgSelect.length > 0 && $primaryContactLi.length > 0 && $signatoryLi.length > 0) {
                     console.log(`Grantee fields found for model ${modelID}. Initializing overrides.`);
 
                     const replaceFieldWithSelect = ($wrapperLi, usersData, originalId) => {
-                        const $textInput = $wrapperLi.find(`input[type="text"][data-original-id="${originalId}"]`);
-                        const $hiddenInput = $wrapperLi.find(`input[type="hidden"][data-original-id="${originalId}"]`);
+                        const $textInput = $wrapperLi.find(`input[type="text"][id^="${originalId}"]`);
+                        const $hiddenInput = $wrapperLi.find(`input[type="hidden"][id^="${originalId}"]`);
                         const currentValue = $hiddenInput.val();
 
                         let $customSelect = $wrapperLi.find('.kiwinet-user-dropdown');
