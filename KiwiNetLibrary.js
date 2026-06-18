@@ -324,6 +324,7 @@ var KiwiNet = (function() {
    ===================================================================== */
 
     methods.awaitFluxxEditDialog = async (modelID) => {
+        console.debug("Initialising V2 Fluxx Functions - v3.02");
         return new Promise((resolve, reject) => {
             if (modelID == undefined || modelID == null) {
                 return reject("Execution aborted: modelID is missing.");
