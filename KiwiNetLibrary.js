@@ -101,6 +101,7 @@ var KiwiNet = (function() {
         
 //Init Fluxx Rich Text Editors (depreciated)
     methods.fluxxRichTextEditors = function(modelID) {
+        console.warn("Depreciated function called - fluxxRichTextEditors. Use fluxxRichTextEditorsV2 instead.");
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
             if (db === undefined) {
@@ -110,7 +111,7 @@ var KiwiNet = (function() {
                   success: function() {
 
                     var waitForEl = function(callback) {
-                    console.log("polling on model - " + modelID);
+                    console.debug("polling on model - " + modelID);
                       if ($('[data-model-id="'+modelID+'"].detail .redactor-box:visible').length) {
                         callback();
                       } else {
@@ -156,7 +157,7 @@ var KiwiNet = (function() {
                                 input.setAttribute('type', 'file');
                                 input.setAttribute('accept', 'image/*');
                                 input.onchange = function () {
-                                    console.log(this);
+                                    //console.log(this);
                                     var file = this.files[0];
                                     var reader = new FileReader();
                                     reader.onload = function () {
@@ -190,11 +191,12 @@ var KiwiNet = (function() {
 
 //Init Fluxx Regrant Button (depreciated)
     methods.fluxxRegrantButton = function(modelID) {
+        console.warn("Depreciated function called - fluxxRegrantButton. Use fluxxRegrantButtonV2 instead.");
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
             if (db === undefined) {
                 var waitForRegrantButton = function(callback) {
-                    console.log("polling on regrant modal - " + modelID);
+                    console.debug("polling on regrant modal - " + modelID);
                     if ($('[data-model-id="'+modelID+'"].detail .request-regrants-partial a[target=".request-regrants-partial"].to-modal').length) {
                         callback();
                     } else {
@@ -217,11 +219,12 @@ var KiwiNet = (function() {
 
 //Init Fluxx rename Save (depreciated)
     methods.fluxxRenameSave = function(modelID) {
+        console.warn("Depreciated function called - fluxxRenameSave. Use fluxxRenameSaveV2 instead.");
         if(modelID != undefined && modelID != null) {
             var db = methods.getUrlParameter('db');
             if (db === undefined) {
                 var waitForSaveButton = function(callback) {
-                    console.log("polling on regrant modal - " + modelID);
+                    console.debug("polling on regrant modal - " + modelID);
                     if ($('[data-model-id="'+modelID+'"].detail footer section.edit a[data-cy="save-button"]').length) {
                         callback();
                     } else {
@@ -324,7 +327,6 @@ var KiwiNet = (function() {
    ===================================================================== */
 
     methods.awaitFluxxEditDialog = async (modelID) => {
-        console.debug("Initialising V2 Fluxx Functions - v3.02");
         return new Promise((resolve, reject) => {
             if (modelID == undefined || modelID == null) {
                 return reject("Execution aborted: modelID is missing.");
@@ -672,7 +674,7 @@ const testFunction = async (modelID, $dialogContext) => {
 })();
 */
 
-
+    console.log("Initialising KiwiNet Library - v3.0.3");
     return methods;
 })();
 
