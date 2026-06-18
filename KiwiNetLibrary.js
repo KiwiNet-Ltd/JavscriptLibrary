@@ -553,7 +553,7 @@ var KiwiNet = (function() {
             const waitForElements = () => {
                 attempts++;
                 console.debug(`Polling for Grantee fields on model ${modelID} - Attempt ${attempts}`);
-                const $orgSelect = $dialogContext.find('select[id^="grant_request_program_organization_id"]');
+                let $orgSelect = $dialogContext.find('select#grant_request_program_organization_id, select[data-original-id="grant_request_program_organization_lookup"], input[data-original-id="grant_request_program_organization_lookup"]');
                 const $primaryContactLi = $dialogContext.find('li#grant_request_grantee_org_owner_id_input, li[data-notable-attribute="grantee_org_owner_id"]');
                 const $signatoryLi = $dialogContext.find('li#grant_request_grantee_signatory_id_input, li[data-notable-attribute="grantee_signatory_id"]');
 
@@ -563,8 +563,8 @@ var KiwiNet = (function() {
                     const replaceFieldWithSelect = ($wrapperLi, usersData, originalId) => {
                         const $textInput = $wrapperLi.find(`input[type="text"][id^="${originalId}"]`);
                         const $hiddenInput = $wrapperLi.find(`input[type="hidden"][id^="${originalId}"]`);
-                        const currentValue = $hiddenInput.val();
-
+                        const currentValue = $hiddenInput.val() || '';
+                        
                         let $customSelect = $wrapperLi.find('.kiwinet-user-dropdown');
                         if ($customSelect.length === 0) {
                             $customSelect = $('<select class="kiwinet-user-dropdown"></select>');
@@ -606,6 +606,11 @@ var KiwiNet = (function() {
                         }
                     };
 
+                    var orgLookupType = $orgSelect.prop('tagName');
+
+                    if (orgLookupType === 'INPUT') {
+                        $orgSelect = $orgSelect.filter('[type="hidden"]');
+                    }
                     $orgSelect.on('change', function() {
                         fetchUsersAndPopulate($(this).val());
                     });
